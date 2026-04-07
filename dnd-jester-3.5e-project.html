@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dandelo Drater — Full Grimoire</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+:root{
+  --bg-page:#1e1e1e;--bg-panel:#252525;--bg-card:#2a2a2a;--bg-header:#1a1a1a;
+  --gold:#c9a84c;--gold-light:#e2c06a;--gold-dim:#7a5e28;
+  --green:#2d6a4f;--green-light:#3d8c69;--green-dim:#1a3d2e;--green-text:#52b788;
+  --text-main:#d4d4d4;--text-muted:#888;--border:#3a3a3a;--border-gold:#5a4010;
+  --red:#c94c4c;--red-dim:#7a1020;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'EB Garamond',Georgia,serif;background:#111;color:var(--text-main);font-size:13.5px;line-height:1.6;}
+.page{max-width:860px;margin:0 auto;background:var(--bg-page);border:1px solid var(--border-gold);box-shadow:0 0 40px rgba(0,0,0,.8);}
+
+/* ── TOP NAV ── */
+.top-nav{background:var(--bg-header);border-bottom:2px solid var(--border-gold);padding:8px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.top-nav-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold-dim);margin-right:8px;}
+.nav-btn{background:var(--bg-card);border:1px solid var(--border-gold);color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;padding:4px 10px;cursor:pointer;border-radius:2px;}
+.nav-btn:hover{background:var(--border-gold);}
+
+/* ── COLLAPSIBLE SECTIONS ── */
+.coll-section{border-bottom:1px solid var(--border);}
+.coll-header{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;cursor:pointer;user-select:none;background:var(--bg-header);border-bottom:2px solid var(--border-gold);transition:background .15s;}
+.coll-header:hover{background:#222;}
+.coll-header.open{border-bottom-color:var(--gold);}
+.coll-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold);display:flex;align-items:center;gap:12px;}
+.coll-arrow{font-size:12px;color:var(--gold-dim);transition:transform .2s;display:inline-block;}
+.coll-arrow.open{transform:rotate(90deg);}
+.coll-body{display:none;}
+.coll-body.open{display:block;}
+
+.sub-coll-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;padding:5px 8px;border-bottom:1px solid var(--border);background:var(--bg-header);border-radius:2px;margin-bottom:2px;}
+.sub-coll-header:hover{background:#222;}
+.sub-coll-arrow{font-size:10px;color:var(--gold-dim);transition:transform .15s;display:inline-block;}
+.sub-coll-arrow.open{transform:rotate(90deg);}
+.sub-coll-body{display:none;padding:4px 0 8px;}
+.sub-coll-body.open{display:block;}
+
+/* ── SAVE BAR ── */
+.save-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg-header);border-bottom:1px solid var(--border-gold);flex-wrap:wrap;}
+.cs-save-btn{background:var(--green);color:var(--gold-light);border:none;font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;padding:6px 16px;cursor:pointer;border-radius:2px;}
+.cs-save-btn:hover{background:var(--green-light);}
+.cs-save-btn.danger{background:var(--red-dim);}
+.cs-save-btn.danger:hover{background:var(--red);}
+.save-status{font-size:11px;color:var(--green-text);font-style:italic;flex:1;}
+.lock-btn{background:var(--bg-card);border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cinzel',serif;font-size:11px;padding:5px 14px;cursor:pointer;border-radius:2px;display:flex;align-items:center;gap:5px;transition:all .15s;}
+.lock-btn.locked{background:#3b1c07;border-color:var(--red);color:#e87a7a;}
+.lock-btn:hover{border-color:var(--gold);}
+
+/* ── CS STYLES ── */
+.cs-page{background:var(--bg-page);color:var(--text-main);}
+.cs-banner{background:linear-gradient(160deg,#0d1a0f 0%,#111 40%,#0a0a0a 100%);padding:28px 40px 20px;text-align:center;border-bottom:3px solid var(--border-gold);}
+.cs-char-name{font-family:'Cinzel Decorative',serif;font-size:28px;font-weight:700;color:var(--gold);text-shadow:0 0 24px rgba(201,168,76,.4);margin-bottom:4px;}
+.cs-char-sub{font-family:'Cinzel',serif;font-size:11px;color:var(--green-text);letter-spacing:3px;margin-bottom:14px;}
+.cs-banner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px 10px;max-width:620px;margin:0 auto;text-align:left;}
+.cs-meta-box{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;}
+.cs-meta-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1px;}
+.cs-input{background:transparent;border:none;border-bottom:1px solid var(--border-gold);color:var(--text-main);font-family:'EB Garamond',serif;font-size:13px;width:100%;outline:none;padding:1px 2px;}
+.cs-input:focus{border-bottom-color:var(--gold);background:#222;border-radius:2px 2px 0 0;}
+.cs-input.big{font-size:20px;font-weight:700;color:var(--gold);font-family:'Cinzel',serif;text-align:center;width:60px;}
+.cs-input.mod-i{font-size:11px;color:var(--green-text);text-align:center;width:44px;}
+.cs-input.val{color:var(--gold);font-weight:600;font-family:'Cinzel',serif;font-size:13px;width:60px;text-align:right;}
+.cs-input.detail{color:var(--text-muted);font-size:11px;font-style:italic;flex:1;}
+.cs-input.skill-r{width:32px;text-align:center;color:var(--gold);}
+.cs-input.skill-m{width:44px;text-align:center;}
+.cs-input.money-i{font-size:14px;color:var(--gold);font-weight:700;text-align:center;width:80px;}
+.cs-input.ta{background:transparent;border:1px solid var(--border);border-radius:2px;color:var(--text-main);font-family:'EB Garamond',serif;font-size:12px;width:100%;outline:none;padding:4px 6px;resize:vertical;min-height:40px;}
+.cs-input.ta:focus{border-color:var(--gold);}
+.cs-cols{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.cs-col{padding:12px 14px;}
+.cs-col:first-child{border-right:1px solid var(--border);}
+.cs-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:2px;margin-bottom:10px;}
+.cs-panel-head{background:var(--bg-header);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;padding:4px 10px;border-bottom:1px solid var(--border-gold);display:flex;justify-content:space-between;align-items:center;}
+.cs-panel-body{padding:7px 9px;}
+.ability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.ability-box{background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;text-align:center;padding:5px 3px;}
+.ab-name{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:1px;color:var(--gold-dim);text-transform:uppercase;}
+.cs-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #2a2a2a;font-size:12px;gap:6px;}
+.cs-row:last-child{border-bottom:none;}
+.cs-row-label{color:var(--text-main);white-space:nowrap;}
+.skill-table{width:100%;border-collapse:collapse;font-size:11px;}
+.skill-table th{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;color:var(--gold);background:var(--bg-header);padding:3px 4px;text-align:left;border:1px solid var(--border-gold);}
+.skill-table td{padding:2px 4px;border:1px solid var(--border);color:var(--text-main);}
+.skill-table tr:nth-child(even) td{background:#222;}
+.skill-table tr:nth-child(odd) td{background:var(--bg-card);}
+.skill-cs{color:var(--green-text);font-weight:600;}
+.feat-wrap{display:flex;flex-wrap:wrap;gap:3px;}
+.feat-tag{display:inline-flex;align-items:center;gap:3px;background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:2px 6px;font-size:11px;color:var(--gold-light);}
+.feat-tag.bonus-feat{border-color:var(--red-dim);color:#e87a7a;}
+.del-btn{cursor:pointer;color:var(--red);font-weight:700;font-size:12px;line-height:1;flex-shrink:0;}
+.del-btn:hover{color:#ff6060;}
+.add-btn{background:var(--green-dim);color:var(--green-text);border:1px solid var(--green);border-radius:2px;font-size:10px;padding:2px 8px;cursor:pointer;font-family:'Cinzel',serif;}
+.add-btn:hover{background:var(--green);}
+
+/* ══════════════════════════════════════════════════
+   ROLL BUTTON SYSTEM — Redesigned
+   ══════════════════════════════════════════════════ */
+.roll-cmd{
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,#1a3d2e 0%,#0e2318 100%);
+  border:1px solid var(--green);border-radius:3px;
+  color:var(--green-text);font-family:'Cinzel',serif;font-size:11px;
+  padding:4px 10px;cursor:pointer;position:relative;
+  transition:all .15s;white-space:nowrap;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);
+  letter-spacing:.5px;
+  user-select:none;
+}
+.roll-cmd::before{content:'🎲';font-size:10px;}
+.roll-cmd:hover{
+  background:linear-gradient(135deg,var(--green) 0%,#1a3d2e 100%);
+  color:#fff;border-color:var(--green-light);
+  box-shadow:0 2px 8px rgba(82,183,136,.3);
+  transform:translateY(-1px);
+}
+.roll-cmd:active{transform:translateY(0);box-shadow:none;}
+.copy-toast{
+  display:none;position:absolute;top:-26px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#111;font-size:9px;font-family:'Cinzel',serif;
+  padding:2px 7px;border-radius:2px;white-space:nowrap;
+  font-weight:700;letter-spacing:.5px;
+  pointer-events:none;
+  animation:toastPop .15s ease;
+}
+.roll-cmd.copied .copy-toast{display:block;}
+@keyframes toastPop{from{opacity:0;top:-20px;}to{opacity:1;top:-26px;}}
+
+/* Attack roll block */
+.roll-block{
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+  background:var(--bg-header);border:1px solid var(--border-gold);
+  border-radius:3px;padding:6px 10px;margin-top:6px;
+}
+.roll-block-label{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1.5px;color:var(--gold-dim);text-transform:uppercase;}
+.roll-group{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.roll-group-title{font-family:'Cinzel',serif;font-size:8px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;}
+
+/* Spell roll row */
+.spell-roll-wrap{
+  display:flex;align-items:center;gap:6px;margin-top:4px;padding:4px 6px;
+  background:rgba(26,61,46,.25);border:1px solid rgba(45,106,79,.3);border-radius:3px;
+  flex-wrap:wrap;
+}
+.spell-roll-label{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;white-space:nowrap;}
+
+/* Spell row */
+.spell-row{display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #2a2a2a;font-size:11.5px;flex-wrap:wrap;}
+.spell-row:last-child{border-bottom:none;}
+.spell-select{background:var(--bg-header);border:1px solid var(--border);border-radius:2px;color:var(--text-main);font-family:'EB Garamond',serif;font-size:11.5px;padding:2px 4px;flex:1;min-width:120px;outline:none;}
+.spell-select:focus{border-color:var(--gold);}
+.spell-note-in{background:transparent;border:none;border-bottom:1px solid var(--border);color:#e8e8e8;font-size:10.5px;font-style:italic;width:105px;outline:none;padding:1px 2px;}
+.spell-note-in:focus{border-bottom-color:var(--gold);}
+
+.roll-btn{background:var(--green-dim);border:1px solid var(--green);color:var(--green-text);font-family:'Cinzel',serif;font-size:9px;padding:2px 6px;border-radius:2px;cursor:pointer;white-space:nowrap;}
+.roll-btn:hover{background:var(--green);color:#fff;}
+.roll-result{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);min-width:28px;text-align:center;font-weight:700;}
+.hp-tracker{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.hp-tracker label{font-size:10px;color:var(--gold-dim);font-family:'Cinzel',serif;}
+.hp-current{font-size:20px;font-weight:700;color:var(--red);font-family:'Cinzel',serif;min-width:36px;text-align:center;}
+.hp-btn{background:var(--bg-header);border:1px solid var(--border-gold);color:var(--gold);font-size:13px;width:22px;height:22px;cursor:pointer;border-radius:2px;display:inline-flex;align-items:center;justify-content:center;}
+.hp-btn:hover{background:var(--border-gold);}
+.perf-pip{width:17px;height:17px;border:1px solid var(--gold-dim);border-radius:50%;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:8px;color:transparent;background:var(--bg-header);}
+.perf-pip.used{background:var(--gold-dim);color:var(--bg-page);}
+.money-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.money-box{background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;text-align:center;padding:4px;}
+.money-label{font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;}
+.cs-full{padding:0 14px 4px;}
+.equip-card{background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;margin-bottom:7px;padding:7px 9px;}
+.equip-name-lbl{font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);margin-bottom:3px;}
+.poison-table{width:100%;border-collapse:collapse;font-size:11px;}
+.poison-table th{font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;color:var(--gold);background:var(--bg-header);padding:3px 6px;border:1px solid var(--border-gold);text-align:left;}
+.poison-table td{padding:3px 6px;border:1px solid var(--border);color:var(--text-main);}
+.poison-table tr:nth-child(even) td{background:#222;}
+.poison-table tr:nth-child(odd) td{background:var(--bg-card);}
+
+body.locked .add-btn,body.locked .del-btn,body.locked .cs-input:not(.val):not(.big):not(.mod-i):not(.money-i):not(.skill-r){pointer-events:none;}
+body.locked .cs-input{border-bottom-color:transparent;}
+body.locked .hp-btn{pointer-events:auto;}
+body.locked .perf-pip{pointer-events:auto;}
+
+/* ── JESTER / THRALL SHARED ── */
+.section{padding:18px 36px 4px;}
+.section+.section{border-top:1px solid var(--border);}
+.section-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--green-text);text-transform:uppercase;margin-bottom:12px;padding-bottom:4px;border-bottom:1px solid var(--green-dim);}
+.level-band{display:flex;align-items:center;gap:12px;margin:16px 0 12px;}
+.level-band-text{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap;}
+.level-band-line{flex:1;border:none;border-top:1px solid var(--gold-dim);}
+.feature-card{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:2px;margin-bottom:10px;padding:9px 12px;}
+.feature-card.feat-card{border-left-color:var(--gold-dim);}
+.feature-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;color:var(--green-text);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.feature-title.feat-title{color:var(--gold);}
+.feat-badge{font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:1px;background:var(--green);color:#fff;padding:1px 5px;border-radius:2px;text-transform:uppercase;}
+.feat-badge.perf-badge{background:var(--green);}
+.feature-body{font-size:12px;color:#bbb;}
+.req{color:var(--gold-dim);font-style:italic;font-size:11px;margin-bottom:3px;}
+.prog-table{width:100%;border-collapse:collapse;font-size:11px;margin:12px 0;}
+.prog-table th{background:var(--bg-header);color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:5px 4px;text-align:center;border:1px solid var(--border-gold);}
+.prog-table td{padding:3px 4px;text-align:center;border:1px solid var(--border);color:var(--text-main);}
+.prog-table tr:nth-child(even) td{background:#222;}
+.prog-table tr:nth-child(odd) td{background:var(--bg-card);}
+.prog-table .lvl-cell{color:var(--gold);font-weight:600;font-family:'Cinzel',serif;}
+.prog-table .special-cell{text-align:left;color:var(--green-text);font-size:10px;}
+.prog-table .spell-col{color:#aaa;}
+.prog-table .dash{color:#444;}
+.level-header{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold);background:linear-gradient(90deg,#5a1a00,#8b3a0f,#5a1a00);padding:5px 14px;margin-bottom:12px;letter-spacing:2px;border-radius:2px;}
+.spell-card{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--gold-dim);border-radius:2px;margin-bottom:9px;page-break-inside:avoid;}
+.spell-head{background:var(--bg-header);padding:5px 10px;border-bottom:1px solid var(--border-gold);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:3px;}
+.spell-name{font-family:'Cinzel',serif;font-size:12.5px;font-weight:600;color:var(--gold-light);}
+.spell-school{font-size:10px;font-style:italic;color:var(--green-text);background:var(--green-dim);padding:1px 7px;border-radius:10px;border:1px solid var(--green);}
+.spell-stats{padding:4px 10px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:3px 15px;font-size:11px;}
+.skey{color:var(--gold);font-weight:600;}
+.sval{color:var(--text-main);}
+.sval.nosave{color:var(--text-muted);font-style:italic;}
+.spell-desc{padding:6px 10px 8px;font-size:12px;color:#bbb;line-height:1.6;}
+.mechanic-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 20px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:3px;padding:10px 14px;margin:12px 0;font-size:12px;}
+.mg-row{display:flex;gap:6px;}
+.mg-key{color:var(--gold);font-weight:600;white-space:nowrap;min-width:110px;padding-top:1px;}
+.intro-text{color:var(--text-main);margin-bottom:8px;font-size:13px;}
+
+/* THRALL */
+.thrall-section{border-top:1px solid #4a1010;}
+.thrall-section-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:3px;color:#e87a7a;text-transform:uppercase;margin-bottom:12px;padding-bottom:4px;border-bottom:1px solid #4a1010;}
+.t-feature-card{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #7a1020;border-radius:2px;margin-bottom:10px;padding:9px 12px;}
+.t-feature-title{font-family:'Cinzel',serif;font-size:11px;font-weight:600;color:#e87a7a;margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.t-feat-badge{font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:1px;background:#7a1020;color:#fff;padding:1px 5px;border-radius:2px;text-transform:uppercase;}
+.t-level-band-text{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#c94c4c;white-space:nowrap;}
+.t-level-band-line{flex:1;border:none;border-top:1px solid #7a1020;}
+.t-prog .prog-table .lvl-cell{color:#c94c4c;}
+.t-prog .prog-table .special-cell{color:#e87a7a;}
+
+/* DEMON BESTIARY */
+.demon-card{background:#1c0005;border:1px solid #5a1020;border-radius:3px;margin:0 36px 18px;page-break-inside:avoid;}
+.demon-card-head{background:linear-gradient(90deg,#2a0008,#1c0005);padding:9px 14px 7px;border-bottom:1px solid #5a1020;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:5px;}
+.demon-name{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#c94c4c;}
+.demon-type{font-size:10.5px;font-style:italic;color:#e87a7a;background:#2a0008;padding:1px 7px;border-radius:10px;border:1px solid #5a1020;}
+.demon-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.demon-lore{padding:10px 14px;border-right:1px solid #3a0010;font-size:12px;color:#bbb;line-height:1.6;}
+.demon-lore .appearance{font-style:italic;color:#e87a7a;margin-bottom:7px;font-size:11.5px;border-left:2px solid #7a1020;padding-left:7px;}
+.demon-stats{padding:8px 12px;font-size:11px;}
+.stat-row{display:flex;gap:5px;margin-bottom:3px;}
+.stat-label{color:#c94c4c;font-weight:600;font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.5px;min-width:60px;padding-top:1px;}
+.stat-val{color:#d4d4d4;}
+.stat-divider{border:none;border-top:1px solid #3a0010;margin:5px 0;}
+.ability-row{color:#bbb;font-size:11px;margin-bottom:3px;padding-left:2px;}
+.ability-name{color:#e87a7a;font-weight:600;}
+.source-tag{font-size:10px;color:#555;font-style:italic;margin-top:5px;}
+
+.print-btn{display:block;width:100%;background:var(--green);color:var(--gold-light);border:none;padding:10px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;cursor:pointer;border-bottom:1px solid var(--border-gold);}
+.print-btn:hover{background:var(--green-light);}
+
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#111!important;}
+  .save-bar,.print-btn,.top-nav,.lock-btn,.add-btn,.del-btn,.hp-btn,.perf-pip,#cs-fallback,.coll-arrow,.sub-coll-arrow{display:none!important;}
+  .coll-body,.sub-coll-body{display:block!important;}
+  .page{box-shadow:none!important;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+<div class="top-nav">
+  <span class="top-nav-title">JUMP TO:</span>
+  <button class="nav-btn" onclick="jumpTo('sec-char')">🃏 Character Sheet</button>
+  <button class="nav-btn" onclick="jumpTo('sec-jester')">📖 Jester Class</button>
+  <button class="nav-btn" onclick="jumpTo('sec-thrall')">👁 Thrall of Demogorgon</button>
+  <button class="nav-btn" onclick="jumpTo('sec-bestiary')">☠ Demon Bestiary</button>
+  <button class="nav-btn" onclick="expandAll()">⊞ Expand All</button>
+  <button class="nav-btn" onclick="collapseAll()">⊟ Collapse All</button>
+</div>
+
+<!-- ═══════════════════════════════════════ CHARACTER SHEET ═══ -->
+<div class="coll-section" id="sec-char">
+  <div class="coll-header open" onclick="toggleSection('sec-char')">
+    <span class="coll-title">🃏 <span>Dandelo Drater — Character Sheet</span></span>
+    <span class="coll-arrow open" id="arr-sec-char">▶</span>
+  </div>
+  <div class="coll-body open" id="body-sec-char">
+
+  <div class="save-bar">
+    <button class="cs-save-btn" id="btn-save" onclick="csManualSave()">💾 Save</button>
+    <button class="cs-save-btn danger" onclick="csReset()">↺ Reset</button>
+    <button class="lock-btn" id="lock-btn" onclick="toggleLock()">🔓 Unlocked — editing enabled</button>
+    <span class="save-status" id="cs-status">Loading…</span>
+  </div>
+
+  <div class="cs-banner">
+    <div class="cs-char-name" id="b-name" contenteditable="true" onblur="csMark()">Dandelo Drater</div>
+    <div class="cs-char-sub" id="b-sub" contenteditable="true" onblur="csMark()">Jester 6 · Human · Chaotic Evil · Devotee of Demogorgon</div>
+    <div class="cs-banner-grid">
+      <div class="cs-meta-box"><div class="cs-meta-label">Player</div><input class="cs-input" id="m-player" value="Nely" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Race</div><input class="cs-input" id="m-race" value="Human" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Alignment</div><input class="cs-input" id="m-align" value="Chaotic Evil" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Deity</div><input class="cs-input" id="m-deity" value="Demogorgon" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Level</div><input class="cs-input" id="m-level" value="6" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Age / Gender</div><input class="cs-input" id="m-age" value="28 / Male" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Height / Weight</div><input class="cs-input" id="m-hw" value="5'6&quot; / 160 lb" onchange="csMark()"></div>
+      <div class="cs-meta-box"><div class="cs-meta-label">Eyes / Hair / Skin</div><input class="cs-input" id="m-eyes" value="Green / Brown / Yes" onchange="csMark()"></div>
+    </div>
+  </div>
+
+  <div class="cs-cols">
+  <div class="cs-col">
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Ability Scores</div>
+      <div class="cs-panel-body"><div class="ability-grid" id="ability-grid"></div></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Combat Statistics</div>
+      <div class="cs-panel-body" style="display:flex;flex-direction:column;gap:5px;">
+
+        <!-- HP card -->
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:6px 8px;">
+          <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1px;margin-bottom:4px;">HIT POINTS</div>
+          <div class="hp-tracker">
+            <label>Max</label><input class="cs-input val" id="hp-max" value="40" style="width:40px;" onchange="csMark();updateHP()">
+            <label>Cur</label>
+            <button class="hp-btn" onclick="adjHP(-1)">−</button>
+            <span class="hp-current" id="hp-cur">40</span>
+            <button class="hp-btn" onclick="adjHP(1)">+</button>
+            <label>NL</label><input class="cs-input val" id="hp-nl" value="0" style="width:32px;" onchange="csMark()">
+          </div>
+        </div>
+
+        <!-- Core combat stats 2-col grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">ARMOR CLASS</div>
+            <div style="display:flex;align-items:baseline;gap:5px;">
+              <input class="cs-input val" id="c-ac" value="19" onchange="csMark()" style="font-size:18px;width:38px;">
+              <input class="cs-input detail" id="c-ac-d" value="Touch 15 · FF 16" onchange="csMark()" style="font-size:10px;">
+            </div>
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">INITIATIVE</div>
+            <div style="display:flex;align-items:baseline;gap:5px;">
+              <input class="cs-input val" id="c-init" value="+3" onchange="csMark()" style="font-size:18px;width:38px;">
+              <input class="cs-input detail" id="c-init-d" value="Dex +3" onchange="csMark()" style="font-size:10px;">
+            </div>
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">BASE ATTACK BONUS</div>
+            <input class="cs-input val" id="c-bab" value="+8" onchange="csMark()" style="font-size:16px;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">SPEED</div>
+            <input class="cs-input val" id="c-spd" value="30 ft" onchange="csMark()" style="font-size:16px;">
+          </div>
+        </div>
+
+        <!-- Secondary stats -->
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:11px;">
+            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:1px solid #2a2a2a;">
+              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">Grapple</span>
+              <input class="cs-input val" id="c-grp" value="+8" onchange="csMark()" style="width:36px;font-size:12px;">
+              <input class="cs-input detail" id="c-grp-d" value="BAB+8, Str+0" onchange="csMark()" style="font-size:10px;">
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:1px solid #2a2a2a;">
+              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">Spell Res.</span>
+              <input class="cs-input val" id="c-sr" value="3" onchange="csMark()" style="width:28px;font-size:12px;">
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;">
+              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">DR</span>
+              <input class="cs-input detail" id="c-dr" value="—" onchange="csMark()">
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;">
+              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">XP</span>
+              <input class="cs-input detail" id="c-xp" value="" placeholder="0" onchange="csMark()" style="color:#e8e8e8;">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Saving Throws</div>
+      <div class="cs-panel-body" style="display:flex;flex-direction:column;gap:5px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">FORTITUDE</div>
+            <input class="cs-input val" id="s-fort" value="+4" onchange="csMark()" style="font-size:20px;width:46px;display:block;">
+            <input class="cs-input detail" id="s-fort-d" value="Base +2, Con +2" onchange="csMark()" style="font-size:9px;width:100%;margin-top:2px;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">REFLEX</div>
+            <input class="cs-input val" id="s-ref" value="+8" onchange="csMark()" style="font-size:20px;width:46px;display:block;">
+            <input class="cs-input detail" id="s-ref-d" value="Base +5, Dex +3" onchange="csMark()" style="font-size:9px;width:100%;margin-top:2px;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">WILL</div>
+            <input class="cs-input val" id="s-will" value="+4" onchange="csMark()" style="font-size:20px;width:46px;display:block;">
+            <input class="cs-input detail" id="s-will-d" value="Base +5, Wis −1" onchange="csMark()" style="font-size:9px;width:100%;margin-top:2px;">
+          </div>
+        </div>
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:4px 8px;display:flex;align-items:center;gap:6px;">
+          <span style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;white-space:nowrap;">CONDITIONAL</span>
+          <input class="cs-input detail" id="s-cond" value="" placeholder="e.g. +4 vs fear" onchange="csMark()" style="color:#e8e8e8;flex:1;">
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Attacks <button class="add-btn" id="add-atk-btn" onclick="addAttack()">+ Add</button></div>
+      <div class="cs-panel-body" id="attacks-body"></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Armor &amp; Protection</div>
+      <div class="cs-panel-body" style="display:flex;flex-direction:column;gap:5px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">ARMOR NAME</div>
+            <input class="cs-input detail" id="a-name" value="Mithral Shirt" onchange="csMark()" style="color:var(--gold-light);font-size:12px;width:100%;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">TYPE / AC BONUS</div>
+            <input class="cs-input detail" id="a-type" value="Light / +4" onchange="csMark()" style="font-size:12px;width:100%;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">MAX DEX / CHECK PEN</div>
+            <input class="cs-input detail" id="a-dex" value="+8 / n/a" onchange="csMark()" style="font-size:12px;width:100%;">
+          </div>
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">SPELL FAIL / WEIGHT</div>
+            <input class="cs-input detail" id="a-sf" value="10% / 10 lb" onchange="csMark()" style="font-size:12px;width:100%;">
+          </div>
+        </div>
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;display:flex;gap:8px;">
+          <div style="flex:1;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">SHIELD</div>
+            <input class="cs-input detail" id="a-shield" value="None" onchange="csMark()" style="width:100%;font-size:12px;">
+          </div>
+          <div style="flex:1;">
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">OTHER / NATURAL</div>
+            <input class="cs-input detail" id="a-other" value="Natural +2 (Scaly Flesh)" onchange="csMark()" style="width:100%;font-size:12px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Feats <button class="add-btn" id="add-feat-btn" onclick="addFeat()">+ Add</button></div>
+      <div class="cs-panel-body"><div class="feat-wrap" id="feats-body"></div></div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Performance Uses/Day</div>
+      <div class="cs-panel-body">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:5px;">Max/day: <input class="cs-input" id="perf-max" value="6" style="width:28px;" onchange="csMark();renderPerf()"> · DC: <input class="cs-input val" id="perf-dc" value="17" style="width:34px;" onchange="csMark()"></div>
+        <div id="perf-pips" style="display:flex;gap:5px;flex-wrap:wrap;"></div>
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Money &amp; Encumbrance</div>
+      <div class="cs-panel-body">
+        <div class="money-grid" style="margin-bottom:7px;">
+          <div class="money-box"><div class="money-label">PP</div><input class="cs-input money-i" id="mo-pp" value="—" onchange="csMark()"></div>
+          <div class="money-box"><div class="money-label">GP</div><input class="cs-input money-i" id="mo-gp" value="14798" onchange="csMark()"></div>
+          <div class="money-box"><div class="money-label">SP</div><input class="cs-input money-i" id="mo-sp" value="—" onchange="csMark()"></div>
+          <div class="money-box"><div class="money-label">CP</div><input class="cs-input money-i" id="mo-cp" value="—" onchange="csMark()"></div>
+        </div>
+        <div class="cs-row"><span class="cs-row-label">Weight Carried</span><input class="cs-input val" id="mo-wt" value="2.0 lb" onchange="csMark()"></div>
+        <div class="cs-row"><span class="cs-row-label">L/M/H Load</span><input class="cs-input detail" id="mo-load" value="33 / 66 / 100 lb" onchange="csMark()"></div>
+        <div class="cs-row"><span class="cs-row-label">Languages</span><input class="cs-input detail" id="mo-lang" value="Common" onchange="csMark()"></div>
+      </div>
+    </div>
+
+  </div><!-- end left col -->
+  <div class="cs-col">
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Skills <button class="add-btn" id="add-skill-btn" onclick="addSkill()">+ Add</button>
+        <span style="font-size:8px;color:var(--text-muted);font-family:serif;letter-spacing:0;">Max: <input class="cs-input" id="sk-maxr" value="9" style="width:20px;" onchange="csMark()">/<input class="cs-input" id="sk-maxc" value="4.5" style="width:26px;" onchange="csMark()"></span>
+      </div>
+      <div class="cs-panel-body" style="padding:4px 2px;">
+        <table class="skill-table"><thead><tr><th>Skill (★=class)</th><th>Abil</th><th>Total</th><th>Ranks</th><th>Misc</th><th></th></tr></thead>
+        <tbody id="skill-tbody"></tbody></table>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:3px;font-style:italic;">* = armor check penalty · Skill pts lvl 6: 81</div>
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Spells Known &amp; Per Day <button class="add-btn" id="add-spelllvl-btn" onclick="addSpellLevel()">+ Level</button></div>
+      <div class="cs-panel-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px;" id="spell-slots"></div>
+        <div id="spell-lists"></div>
+      </div>
+    </div>
+
+    <div class="cs-panel">
+      <div class="cs-panel-head">Session Notes &amp; Conditions</div>
+      <div class="cs-panel-body">
+        <textarea class="cs-input ta" id="sess-notes" placeholder="Conditions, ongoing effects, XP, loot, NPC notes..." rows="5" onchange="csMark()"></textarea>
+      </div>
+    </div>
+
+  </div><!-- end right col -->
+  </div><!-- end cs-cols -->
+
+  <!-- EQUIPMENT -->
+  <div class="cs-full">
+    <div class="cs-panel">
+      <div class="cs-panel-head">Equipment &amp; Magic Items</div>
+      <div class="cs-panel-body" style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        <div class="equip-card"><div class="equip-name-lbl">🎭 Cap of the Two Voices — Head · 1,600 gp</div><div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:3px;">Twin bells that never ring in harmony.</div><div style="font-size:11px;color:#bbb;">• At will: Ghost Sound &amp; Ventriloquism (CL 3)<br>• 1/day: Hideous Laughter (DC 13+Cha)</div><div style="font-size:11px;color:#c94c4c;margin-top:3px;">⚠ Will DC 12 after use or −2 Concentration &amp; Listen 10 min</div></div>
+        <div class="equip-card"><div class="equip-name-lbl">🌀 Cloak of the Split Audience — Shoulders · 2,000 gp</div><div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:3px;">Mirrored faces — one weeping, one roaring.</div><div style="font-size:11px;color:#bbb;">• 1/encounter: Mirror Image aura 15-ft radius<br>• Allies: +2 Bluff &amp; Perform</div><div style="font-size:11px;color:#c94c4c;margin-top:3px;">⚠ Each image pop: nearby foes Will DC 10 or shaken 1 rnd</div></div>
+        <div class="equip-card"><div class="equip-name-lbl">🧤 Gloves of Mocking Grace — Hands · 1,000 gp</div><div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:3px;">Fingertips twitch on their own when idle.</div><div style="font-size:11px;color:#bbb;">• +5 Perform (Comedy) &amp; Sleight of Hand<br>• Mage Hand at will (free action)<br>• 1/day swift: −2 morale on enemy's next attack</div><div style="font-size:11px;color:#c94c4c;margin-top:3px;">⚠ After 3 morale uses: −1 attack for 10 min</div></div>
+        <div class="equip-card"><div class="equip-name-lbl">🔮 Bauble of the Howling Court — Wondrous · 400 gp</div><div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:3px;">One of Demogorgon's heads listens through it.</div><div style="font-size:11px;color:#bbb;">• 1/day: Yes/no Augury (riddles &amp; laughter)<br>• 5% chance wrong head answers (misleading)</div></div>
+        <div class="equip-card" style="grid-column:1/-1;"><div class="equip-name-lbl">⚔ The Grinning Needle — +1 Rapier · ~7,200 gp · 2 lb · Crit 18–20/×2</div><div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-bottom:4px;">Mirror-bright rapier curved like a crooked smile; victims hear laughter when struck. Faint Enchantment &amp; Illusion (CL 5).</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;"><div style="background:var(--bg-page);border:1px solid var(--border);border-radius:2px;padding:5px;"><div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);margin-bottom:2px;">CUTTING JEST (Su)</div><div style="font-size:10.5px;color:#bbb;">Hit vs. Dex-denied: Will DC 13 or −2 attacks/skills/Conc 2 rnds. Phantasm.</div></div><div style="background:var(--bg-page);border:1px solid var(--border);border-radius:2px;padding:5px;"><div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);margin-bottom:2px;">PUNCHLINE DELAY (Su)</div><div style="font-size:10.5px;color:#bbb;">1/encounter: Will DC 13 at target's next turn start or dazed 1 rnd. Success: −2 Will saves 1 rnd.</div></div><div style="background:var(--bg-page);border:1px solid var(--border);border-radius:2px;padding:5px;"><div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);margin-bottom:2px;">STAGE PRESENCE</div><div style="font-size:10.5px;color:#bbb;">+2 Bluff &amp; Perform while wielding. Feint success: +1 to weapon DCs (max DC 14).</div></div></div></div>
+        <div class="equip-card" style="grid-column:1/-1;background:var(--bg-card);border-style:dashed;"><div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);margin-bottom:4px;">NEW / ADDITIONAL ITEMS</div><textarea class="cs-input ta" id="eq-extra" placeholder="Loot, consumables, or new gear acquired during play..." onchange="csMark()"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POISONS -->
+  <div class="cs-full">
+    <div class="cs-panel">
+      <div class="cs-panel-head">Poisons <span style="font-size:9px;color:var(--text-muted);font-family:serif;letter-spacing:0;">— click cells to edit</span></div>
+      <div class="cs-panel-body">
+        <table class="poison-table"><thead><tr><th>Poison</th><th>Save</th><th>Primary</th><th>Secondary</th></tr></thead>
+        <tbody>
+          <tr><td contenteditable="true" onblur="csMark()">Small Centipede Poison</td><td contenteditable="true" onblur="csMark()">Fort DC 11</td><td contenteditable="true" onblur="csMark()">1d2 Dex (1 rnd)</td><td contenteditable="true" onblur="csMark()">—</td></tr>
+          <tr><td contenteditable="true" onblur="csMark()">Black Adder Venom</td><td contenteditable="true" onblur="csMark()">Fort DC 11</td><td contenteditable="true" onblur="csMark()">1d6 Con (immediate)</td><td contenteditable="true" onblur="csMark()">1d6 Con (1 turn later)</td></tr>
+          <tr><td contenteditable="true" onblur="csMark()">Blue Whinnis</td><td contenteditable="true" onblur="csMark()">Fort DC 14</td><td contenteditable="true" onblur="csMark()">Unconscious 1 rnd</td><td contenteditable="true" onblur="csMark()">Unconscious 2d4 hrs</td></tr>
+          <tr><td contenteditable="true" onblur="csMark()" style="color:var(--text-muted);font-style:italic;">[new poison]</td><td contenteditable="true" onblur="csMark()"></td><td contenteditable="true" onblur="csMark()"></td><td contenteditable="true" onblur="csMark()"></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASS ABILITIES -->
+  <div class="cs-full">
+    <div class="cs-panel">
+      <div class="cs-panel-head">Active Class Abilities <button class="add-btn" id="add-ability-btn" onclick="addAbility()">+ Add</button></div>
+      <div class="cs-panel-body" style="display:grid;grid-template-columns:1fr 1fr;gap:7px;" id="abilities-body"></div>
+    </div>
+  </div>
+
+  </div><!-- end coll-body char -->
+</div><!-- end sec-char -->
+
+<!-- ═══════════════════════════════════════ JESTER CLASS ═══════ -->
+<div class="coll-section" id="sec-jester">
+  <div class="coll-header" onclick="toggleSection('sec-jester')">
+    <span class="coll-title">📖 <span>Jester Class — Dragon Compendium</span></span>
+    <span class="coll-arrow" id="arr-sec-jester">▶</span>
+  </div>
+  <div class="coll-body" id="body-sec-jester">
+
+  <div class="section">
+    <div class="section-title">Class Overview</div>
+    <p class="intro-text">The Jester is an arcane trickster who casts spontaneously from a personal spell list. Spell DCs are Charisma-based; Jesters ignore material component costs on their own list. Performance uses = Jester level per day.</p>
+    <div class="mechanic-grid">
+      <div class="mg-row"><span class="mg-key">Hit Die:</span><span>d6</span></div>
+      <div class="mg-row"><span class="mg-key">Alignment:</span><span>Any Chaotic</span></div>
+      <div class="mg-row"><span class="mg-key">Skill Points:</span><span>6 + Int/level</span></div>
+      <div class="mg-row"><span class="mg-key">Spell DC:</span><span>10 + Spell Level + Cha mod</span></div>
+      <div class="mg-row"><span class="mg-key">Casting Stat:</span><span>Charisma (min 10 + spell level)</span></div>
+      <div class="mg-row"><span class="mg-key">Casting Type:</span><span>Spontaneous arcane</span></div>
+      <div class="mg-row"><span class="mg-key">Armor:</span><span>Light + all shields (no tower)</span></div>
+      <div class="mg-row"><span class="mg-key">Weapons:</span><span>Simple + rapier, sap, short sword, shortbow, whip</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Level Progression &amp; Spells Per Day</div>
+    <table class="prog-table">
+      <thead><tr><th>Lvl</th><th>BAB</th><th>Fort</th><th>Ref</th><th>Will</th><th>0th</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th style="text-align:left;min-width:180px;">Special</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl-cell">1</td><td>+0</td><td>+0</td><td>+2</td><td>+2</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Audacity +1, Performance (Fascinate, Inspiring Quip, Taunt)</td></tr>
+        <tr><td class="lvl-cell">2</td><td>+1</td><td>+0</td><td>+3</td><td>+3</td><td class="spell-col">3</td><td class="spell-col">1</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Bonus Feat: Deflect Arrows*</td></tr>
+        <tr><td class="lvl-cell">3</td><td>+2</td><td>+1</td><td>+3</td><td>+3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">4</td><td>+3</td><td>+1</td><td>+4</td><td>+4</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="spell-col">1</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">5</td><td>+3</td><td>+1</td><td>+4</td><td>+4</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Audacity +2; swap 1 spell known</td></tr>
+        <tr><td class="lvl-cell">6</td><td>+4</td><td>+2</td><td>+5</td><td>+5</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Bonus Feat: Snatch Arrows*; Calming Performance</td></tr>
+        <tr><td class="lvl-cell">7</td><td>+5</td><td>+2</td><td>+5</td><td>+5</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">1</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">8</td><td>+6/+1</td><td>+2</td><td>+6</td><td>+6</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Swap 1 spell known</td></tr>
+        <tr><td class="lvl-cell">9</td><td>+6/+1</td><td>+3</td><td>+6</td><td>+6</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Performance (Buffoonery)</td></tr>
+        <tr><td class="lvl-cell">10</td><td>+7/+2</td><td>+3</td><td>+7</td><td>+7</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">1</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Audacity +3; Bone Rattler</td></tr>
+        <tr><td class="lvl-cell">11</td><td>+8/+3</td><td>+3</td><td>+7</td><td>+7</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Swap 1 spell known</td></tr>
+        <tr><td class="lvl-cell">12</td><td>+9/+4</td><td>+4</td><td>+8</td><td>+8</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="dash">—</td><td class="special-cell">Performance (Vicious Lampoon)</td></tr>
+        <tr><td class="lvl-cell">13</td><td>+9/+4</td><td>+4</td><td>+8</td><td>+8</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">1</td><td class="dash">—</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">14</td><td>+10/+5</td><td>+4</td><td>+9</td><td>+9</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="special-cell">Swap 1 spell known</td></tr>
+        <tr><td class="lvl-cell">15</td><td>+11/+6</td><td>+5</td><td>+9</td><td>+9</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="dash">—</td><td class="special-cell">Audacity +4; Vexing Dialogue</td></tr>
+        <tr><td class="lvl-cell">16</td><td>+12/+7</td><td>+5</td><td>+10</td><td>+10</td><td class="spell-col">3</td><td class="spell-col">4</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">1</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">17</td><td>+12/+7</td><td>+5</td><td>+10</td><td>+10</td><td class="spell-col">3</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="special-cell">Swap 1 spell known</td></tr>
+        <tr><td class="lvl-cell">18</td><td>+13/+8</td><td>+6</td><td>+11</td><td>+11</td><td class="spell-col">3</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="spell-col">2</td><td class="special-cell">Performance (Scathing Wit)</td></tr>
+        <tr><td class="lvl-cell">19</td><td>+14/+9</td><td>+6</td><td>+11</td><td>+11</td><td class="spell-col">3</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">3</td><td class="spell-col">3</td><td class="special-cell">—</td></tr>
+        <tr><td class="lvl-cell">20</td><td>+15/+10</td><td>+6</td><td>+12</td><td>+12</td><td class="spell-col">3</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">4</td><td class="spell-col">3</td><td class="special-cell">Audacity +5; swap 1 spell</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Class Features by Level</div>
+    <div class="level-band"><span class="level-band-text">1st</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PASSIVE</span> Jester's Audacity (Ex)</div><div class="feature-body">+1 dodge bonus to AC (increases to +2 at 5th, +3 at 10th, +4 at 15th, +5 at 20th). Cannot exceed the jester's Charisma modifier.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Jester's Performance — 1×/day per level</div><div class="feature-body">Standard action to start; free/move to maintain. Cannot cast spells or activate items by word/completion while performing. Deaf jester: 20% failure chance.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Fascinate (Sp)</div><div class="req">Requires: 3+ ranks Perform (comedy)</div><div class="feature-body">1 creature within 90 ft (+ 1 per 3 levels beyond 1st). Will save DC 10 + ½ level + Cha. Failure: fascinated up to 1 round/level, −4 Spot/Listen. Enchantment (Compulsion), mind-affecting, language-dependent.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Inspiring Quip (Su)</div><div class="req">Requires: 3+ ranks Perform (comedy)</div><div class="feature-body">Immediate action on enemy miss. All allies within 30 ft gain +2 morale to attacks vs. that foe for the encounter.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Taunt (Su)</div><div class="req">Requires: 3+ ranks Perform (comedy)</div><div class="feature-body">60 ft range. Will DC 10 + ½ level + Cha. Failure: +1 morale to attacks, −2 AC; target must charge/move toward jester next turn. Free action to maintain. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">2nd</span><hr class="level-band-line"></div>
+    <div class="feature-card feat-card"><div class="feature-title feat-title"><span class="feat-badge">BONUS FEAT</span> Deflect Arrows</div><div class="req">Requires: 5+ ranks Perform (comedy)</div><div class="feature-body">Granted automatically. Once per round, Reflex DC 20 to deflect a ranged attack. Must have one hand free.</div></div>
+    <div class="level-band"><span class="level-band-text">5th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PASSIVE</span> Audacity +2 &amp; Spell Swap</div><div class="feature-body">Audacity improves to +2. Starting at 5th level and every 3 levels thereafter, the jester may replace one known spell with another from the Jester spell list.</div></div>
+    <div class="level-band"><span class="level-band-text">6th</span><hr class="level-band-line"></div>
+    <div class="feature-card feat-card"><div class="feature-title feat-title"><span class="feat-badge">BONUS FEAT</span> Snatch Arrows</div><div class="req">Requires: 9+ ranks Perform (comedy)</div><div class="feature-body">Granted automatically. Upgrades Deflect Arrows — the jester catches incoming missiles instead of merely deflecting them.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Calming Performance (Su)</div><div class="req">Requires: 9+ ranks Perform (comedy); targets already Fascinated</div><div class="feature-body">Shifts all currently Fascinated creatures to Friendly attitude toward jester, allies, and each other. Lasts 10 min/level. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">9th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Buffoonery (Su)</div><div class="req">Requires: 12+ ranks Perform (comedy)</div><div class="feature-body">One target within 30 ft. Will DC 10 + ½ level + Cha or loses Dexterity bonus to AC (treated as flat-footed). New save each round. Free action to maintain. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">10th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PASSIVE</span> Audacity +3 &amp; Bone Rattler (Ex)</div><div class="feature-body">Audacity improves to +3. Additionally, Performance abilities now affect intelligent undead (those with Int scores), who gain +2 on saves. Non-intelligent undead remain immune.</div></div>
+    <div class="level-band"><span class="level-band-text">12th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Vicious Lampoon (Su)</div><div class="req">Requires: 15+ ranks Perform (comedy)</div><div class="feature-body">All enemies within 60 ft who can hear. Will DC 10 + ½ level + Cha or −2 to attack rolls, skill checks, ability checks, and saving throws for up to Jester level rounds. Move action to maintain. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">15th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PASSIVE</span> Audacity +4</div><div class="feature-body">Jester's Audacity improves to +4.</div></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Vexing Dialogue (Su)</div><div class="req">Requires: 18+ ranks Perform (comedy)</div><div class="feature-body">One target must make Concentration checks opposed by the jester's Perform (comedy) to cast spells or use supernatural abilities. Lasts 1 round; usable once per target per encounter. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">18th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PERFORMANCE</span> Scathing Wit (Su)</div><div class="req">Requires: 21+ ranks Perform (comedy)</div><div class="feature-body">One target. Will DC 10 + ½ level + Cha. Failure: penalty to attack rolls and saves equal to the jester's Charisma bonus for up to ½ jester level rounds. Move action to maintain. Mind-affecting, language-dependent.</div></div>
+    <div class="level-band"><span class="level-band-text">20th</span><hr class="level-band-line"></div>
+    <div class="feature-card"><div class="feature-title"><span class="feat-badge perf-badge">PASSIVE</span> Audacity +5 &amp; Final Spell Swap</div><div class="feature-body">Audacity reaches its maximum of +5 (still capped by Cha modifier). Final spell swap at 20th level.</div></div>
+  </div>
+
+  <!-- SPELLS -->
+  <div class="section">
+    <div class="section-title">Spells — Dragon Compendium List</div>
+    <div id="jsub-0"><div class="sub-coll-header open" onclick="toggleSub('jsub-0')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">0th Level (Cantrips)</span><span class="sub-coll-arrow open" id="sarr-jsub-0">▶</span></div>
+    <div class="sub-coll-body open" id="sbody-jsub-0">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Create Water</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">Up to 2 gal/level</span><span class="skey">Duration:</span><span class="sval">Instantaneous</span></div><div class="spell-desc">Conjures clean water. Can fill containers or douse small fires.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Dancing Lights</span><span class="spell-school">Evocation [Light]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">Up to 4 lights or 1 shape</span><span class="skey">Duration:</span><span class="sval">1 min (concentration)</span></div><div class="spell-desc">Creates up to four floating orbs of torchlight or one glowing humanoid shape. Move 100 ft/round as a move action.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Daze</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 10+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One humanoid 4 HD or less</span><span class="skey">Duration:</span><span class="sval">1 round</span></div><div class="spell-desc">Target can take no actions for 1 round but is not helpless. Only affects humanoids ≤4 HD.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Detect Magic</span><span class="spell-school">Divination</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">60-ft cone</span><span class="skey">Target:</span><span class="sval">All auras in cone</span><span class="skey">Duration:</span><span class="sval">Concentration, 1 min/lvl</span></div><div class="spell-desc">Round 1: presence. Round 2: number/strength of auras. Round 3: school. Blocked by 1 ft stone or 1 in. metal.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Flare</span><span class="spell-school">Evocation [Light]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Fort negates (DC 10+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One creature</span><span class="skey">Duration:</span><span class="sval">1 minute</span></div><div class="spell-desc">Burst of light; failed save = dazzled (−1 attacks) for 1 minute.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Light</span><span class="spell-school">Evocation [Light]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (if held)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Object touched</span><span class="skey">Duration:</span><span class="sval">10 min/lvl</span></div><div class="spell-desc">Object glows like a torch (20-ft bright, 20-ft shadowy). Countered by equal-level Darkness.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Mage Hand</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One object ≤5 lbs</span><span class="skey">Duration:</span><span class="sval">Concentration</span></div><div class="spell-desc">Telekinetically moves objects ≤5 lbs at 15 ft/round. Cannot attack or apply meaningful force.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Mending</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (harmless)</span><span class="skey">Range:</span><span class="sval">10 ft</span><span class="skey">Target:</span><span class="sval">One object ≤1 lb</span><span class="skey">Duration:</span><span class="sval">Instantaneous</span></div><div class="spell-desc">Repairs minor breaks in small nonmagical objects. Cannot restore magical properties.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Open/Close</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (object)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One openable object</span><span class="skey">Duration:</span><span class="sval">Instantaneous</span></div><div class="spell-desc">Opens or closes an unlocked door, chest, or window. Locked objects get a Will save.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Prestidigitation</span><span class="spell-school">Universal</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None (generally)</span><span class="skey">Range:</span><span class="sval">10 ft</span><span class="skey">Target:</span><span class="sval">See text</span><span class="skey">Duration:</span><span class="sval">1 hour; 3 effects active</span></div><div class="spell-desc">Clean/soil, chill/warm, color/flavor, sensory impression, light/snuff candle, small mark. Harmless. The quintessential jester cantrip.</div></div>
+    </div></div>
+
+    <div id="jsub-1" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-1')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">1st Level</span><span class="sub-coll-arrow" id="sarr-jsub-1">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-1">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Animate Rope</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One rope ≤50 ft</span><span class="skey">Duration:</span><span class="sval">1 round/lvl</span></div><div class="spell-desc">Animates a rope to entangle, restrain, or trip. Grapple check = caster level + 5. Can tie knots or move the rope.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Bane</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">50-ft burst (caster)</span><span class="skey">Target:</span><span class="sval">All enemies in burst</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">All enemies in burst: −1 morale to attack rolls and saves vs. fear. Counters/dispels Bless.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Cause Fear</span><span class="spell-school">Necromancy [Fear, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will partial (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One living creature ≤5 HD</span><span class="skey">Duration:</span><span class="sval">1d4 rnds (fail) / 1 rnd (success)</span></div><div class="spell-desc">Fail: frightened 1d4 rounds. Success: shaken 1 round (−2 on attacks/saves/checks).</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Charm Person</span><span class="spell-school">Enchantment (Charm) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One humanoid</span><span class="skey">Duration:</span><span class="sval">1 hour/lvl</span></div><div class="spell-desc">Target regards caster as a trusted friend. Will not obey suicidal commands. Ends if jester harms target.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Color Spray</span><span class="spell-school">Illusion (Pattern) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">15-ft cone</span><span class="skey">Target:</span><span class="sval">All in cone</span><span class="skey">Duration:</span><span class="sval">Varies by HD</span></div><div class="spell-desc">≤2 HD: unconscious 2d4 rnds + blinded 1d4 rnds + stunned 1 rnd. 3–4 HD: blinded + stunned. 5+ HD: stunned 1 rnd.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Command</span><span class="spell-school">Enchantment (Compulsion) [Language-Dependent, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One living creature</span><span class="skey">Duration:</span><span class="sval">1 round</span></div><div class="spell-desc">One-word command: Approach, Drop, Fall, Flee, or Halt. Target obeys immediately. Language-dependent.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Disguise Self</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (if interacted with)</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Self</span><span class="skey">Duration:</span><span class="sval">10 min/lvl (D)</span></div><div class="spell-desc">Alters apparent appearance — height, weight, features, clothing. Cannot change creature type. Physical interaction allows a Will save to see through.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Doom</span><span class="spell-school">Necromancy [Fear, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One living creature</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">Target is shaken (−2 morale to attacks/saves/checks) for the duration. Excellent sustained debuff.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Entropic Shield</span><span class="spell-school">Abjuration</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Self</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">20% miss chance on all ranged attacks against the jester (including ranged touch and magic missiles).</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Expeditious Retreat</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Self</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">+30 ft to base land speed. Stacks with Haste.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Feather Fall</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (harmless)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">1 creature or object/lvl</span><span class="skey">Duration:</span><span class="sval">Until landing (max 1 rnd/lvl)</span></div><div class="spell-desc">Slows descent to safe 60 ft/round. Can be cast as an immediate action outside the jester's turn.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Grease</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Ref or fall; Balance DC 10 to move (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One object or 10-ft square</span><span class="skey">Duration:</span><span class="sval">1 round/lvl</span></div><div class="spell-desc">Slippery grease on surface or object. Reflex or fall prone on entry. Balance DC 10 each round or fall. Can cause dropped items.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Hypnotism</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">Up to 2d4 HD of creatures</span><span class="skey">Duration:</span><span class="sval">2d4 rounds (D)</span></div><div class="spell-desc">Fascinates creatures totaling 2d4 HD. Targets answer one-word questions honestly. Caster may issue one Suggestion (new Will save +2).</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Jump</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None (harmless)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Creature touched</span><span class="skey">Duration:</span><span class="sval">1 min/lvl (D)</span></div><div class="spell-desc">+10 competence to Jump checks (or +20 at CL 5, +30 at CL 9). No running start required.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Nystul's Magic Aura</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (object) / disbelief</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Object ≤5 lbs/lvl</span><span class="skey">Duration:</span><span class="sval">1 day/lvl (D)</span></div><div class="spell-desc">Alters detected magical aura. Can make non-magical appear magical, or mask an item's true aura. Identify must beat Will save or receive false info.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Remove Fear</span><span class="spell-school">Abjuration</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Will (harmless)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">1 creature + 1 per 4 levels</span><span class="skey">Duration:</span><span class="sval">10 minutes</span></div><div class="spell-desc">+4 morale vs. fear for 10 min. Already-frightened targets get new save +4 to remove condition.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Silent Image</span><span class="spell-school">Illusion (Figment)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Long</span><span class="skey">Target:</span><span class="sval">Image up to 4×4×4 ft/lvl</span><span class="skey">Duration:</span><span class="sval">Concentration</span></div><div class="spell-desc">Visual illusion only — no sound, smell, or texture. Moveable as a move action. Physical interaction allows Will save.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Sleep</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">Creatures in 10-ft burst; ≤4 HD</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">Lowest HD affected first. Sleeping creatures are helpless. Awakened by noise, damage, or standard action.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Tasha's Hideous Laughter</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 11+Cha); +4 if different type than caster</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One creature</span><span class="skey">Duration:</span><span class="sval">1 round/lvl</span></div><div class="spell-desc">Target falls prone, overcome with laughter — takes no actions, loses Dex to AC. New Will save each round. The signature jester offensive spell.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Undetectable Alignment</span><span class="spell-school">Abjuration</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (harmless)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One creature or object</span><span class="skey">Duration:</span><span class="sval">24 hours</span></div><div class="spell-desc">Conceals alignment from all divination spells for 24 hours. Ideal for infiltrating law-aligned organizations.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Ventriloquism</span><span class="spell-school">Illusion (Figment)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (DC 11+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">Voice to one location</span><span class="skey">Duration:</span><span class="sval">1 min/lvl (D)</span></div><div class="spell-desc">Voice appears to come from any point in range. Listeners who suspect magic may save to disbelieve.</div></div>
+    </div></div>
+
+    <div id="jsub-2" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-2')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">2nd Level</span><span class="sub-coll-arrow" id="sarr-jsub-2">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-2">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Alter Self</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Self</span><span class="skey">Duration:</span><span class="sval">10 min/lvl (D)</span></div><div class="spell-desc">Become any Small/Medium humanoid of equal or fewer HD. Gains physical qualities but not extraordinary/supernatural abilities.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Blur</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None (no Will vs. blur effect)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Creature touched</span><span class="skey">Duration:</span><span class="sval">1 min/lvl (D)</span></div><div class="spell-desc">20% miss chance on all attacks against target. Cannot be overcome by closing eyes. True Seeing negates.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Daze Monster</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 12+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One living creature ≤6 HD</span><span class="skey">Duration:</span><span class="sval">1 round</span></div><div class="spell-desc">Like Daze but works on any creature type up to 6 HD. One round of inaction — very efficient slot usage.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Eagle's Splendor</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Will (harmless)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Creature touched</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">+4 enhancement to Charisma. Boosts all Cha-based skills, spell DCs, performance uses, and performance DCs for the duration.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Enthrall</span><span class="spell-school">Enchantment (Charm) [Language-Dependent, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 12+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">Any number in range</span><span class="skey">Duration:</span><span class="sval">1 hour or until broken</span></div><div class="spell-desc">≤4 HD: automatically enthralled (no save). Higher HD save normally. Enthralled creatures stand still and listen, −4 Perception. Overt threat ends for all.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Fog Cloud</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">Fog 20-ft radius, 20 ft high</span><span class="skey">Duration:</span><span class="sval">10 min/lvl</span></div><div class="spell-desc">Thick fog heavily obscures sight beyond 5 ft. Ranged attacks through fog have 20% miss chance. Wind disperses it.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Glitterdust</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates blindness (DC 12+Cha); outline permanent</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">10-ft burst</span><span class="skey">Duration:</span><span class="sval">1 rnd/lvl (blind); permanent (outline)</span></div><div class="spell-desc">All in burst: outlined (as Faerie Fire — no invisibility/concealment). Failed save: blinded 1 round/level. Outline has no save and persists indefinitely.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Invisibility</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Will (harmless)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Creature or object</span><span class="skey">Duration:</span><span class="sval">1 min/lvl (D); ends on attack/spell</span></div><div class="spell-desc">Target invisible — 50% miss chance on attacks against it, +2 to attack rolls. Ends on attacking or casting.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Mirror Image</span><span class="spell-school">Illusion (Figment)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Self</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">1d4 + 1 per 3 levels (max 8) illusory duplicates. Attackers may hit an image instead of the real jester. Images destroyed by hits. Best low-level defensive spell available.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Pyrotechnics</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will neg. (blindness) or Fort neg. (choking) — DC 12+Cha</span><span class="skey">Range:</span><span class="sval">Long</span><span class="skey">Target:</span><span class="sval">One fire source</span><span class="skey">Duration:</span><span class="sval">1d4+1 rounds (fireworks) / min (smoke)</span></div><div class="spell-desc">Fireworks: blind 120-ft radius (Will neg.). Smoke: 20-ft radius, −4 attacks/saves/checks, Fort neg. Requires existing fire source.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Rope Trick</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">One rope ≤30 ft</span><span class="skey">Duration:</span><span class="sval">1 hour/lvl</span></div><div class="spell-desc">Rope rises into extradimensional space. Up to 8 creatures can hide inside. Opening and rope are invisible from outside. Occupants can see out.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Touch of Idiocy</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None (touch attack required)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Living creature</span><span class="skey">Duration:</span><span class="sval">10 min/lvl</span></div><div class="spell-desc">Melee touch attack deals 1d6 to Intelligence, Wisdom, and Charisma simultaneously. No save. Perfect anti-caster tool.</div></div>
+    </div></div>
+
+    <div id="jsub-3" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-3')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">3rd Level</span><span class="sub-coll-arrow" id="sarr-jsub-3">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-3">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Confusion</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 13+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">All in 15-ft burst</span><span class="skey">Duration:</span><span class="sval">1 round/lvl</span></div><div class="spell-desc">d%: 01–10 attack caster; 11–20 act normally; 21–50 do nothing; 51–70 flee; 71–100 attack nearest. Re-rolls each round. The jester's masterpiece of chaos.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Crushing Despair</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 13+Cha)</span><span class="skey">Range:</span><span class="sval">30-ft cone</span><span class="skey">Target:</span><span class="sval">All in cone</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">−2 to attacks, saves, ability checks, skill checks, and damage rolls. Wide-cone debuff affecting every enemy in front of the jester.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Displacement</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (doesn't overcome miss chance)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Creature touched</span><span class="skey">Duration:</span><span class="sval">1 round/lvl (D)</span></div><div class="spell-desc">50% miss chance on all attacks. Cannot be overcome by blindsight. Only True Seeing removes it. Strongest defensive illusion at this tier.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Gaseous Form</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Will (harmless)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Willing creature</span><span class="skey">Duration:</span><span class="sval">2 min/lvl (D)</span></div><div class="spell-desc">Target becomes mist — fly 10 ft (perfect), pass through cracks, immune to non-magical attacks. Cannot attack or cast. Equipment drops. The ultimate escape.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Haste</span><span class="spell-school">Transmutation</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Fort (harmless)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">1 creature/lvl (no two 30+ ft apart)</span><span class="skey">Duration:</span><span class="sval">1 round/lvl</span></div><div class="spell-desc">Extra move action/round, +1 attack, +1 Reflex, +1 AC (dodge), +30 ft speed. Counters/dispels Slow. One of the best party buffs in the game.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Invisibility Sphere</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">Will (harmless)</span><span class="skey">Range:</span><span class="sval">Personal</span><span class="skey">Target:</span><span class="sval">Caster + all within 10 ft</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">Invisibility for the entire party at once. Creatures leaving 10 ft become visible; returning become invisible. Only the attacker loses invisibility on attacking.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Rage</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 13+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">1 creature/3 lvls</span><span class="skey">Duration:</span><span class="sval">Concentration + 1 round</span></div><div class="spell-desc">+2 Str, +2 Con, +1 Will, −2 AC. Unwilling targets that fail attack nearest creature (friend or foe). Casting on multiple enemies can cause mass friendly fire.</div></div>
+    </div></div>
+
+    <div id="jsub-4" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-4')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">4th Level</span><span class="sub-coll-arrow" id="sarr-jsub-4">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-4">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Hold Monster</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 14+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One living creature</span><span class="skey">Duration:</span><span class="sval">1 round/lvl (D)</span></div><div class="spell-desc">Paralyzes any living creature. Target is helpless — flat-footed, melee attacks auto-confirm crits. New save each round.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Minor Creation</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">0 ft</span><span class="skey">Target:</span><span class="sval">Object of vegetable matter ≤1 cu ft/lvl</span><span class="skey">Duration:</span><span class="sval">1 hour/lvl (D)</span></div><div class="spell-desc">Creates cloth, rope, wood, or similar vegetable matter. Cannot serve as a weapon. Ideal for props, ladders, or replacement costume pieces.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Modify Memory</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 14+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">One creature</span><span class="skey">Duration:</span><span class="sval">Permanent</span></div><div class="spell-desc">Permanently alters up to 5 min of memory from the last day per caster level. Requires 1 minute of concentration to implant. Target fully believes the altered memory.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Rainbow Pattern</span><span class="spell-school">Illusion (Pattern) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 14+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">All in 20-ft burst (up to 24 HD)</span><span class="skey">Duration:</span><span class="sval">Concentration + 1 rnd/lvl</span></div><div class="spell-desc">Fascinates up to 24 HD of creatures. Move pattern 30 ft/round to lead fascinated creatures. New save if moved out of range.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Solid Fog</span><span class="spell-school">Conjuration (Creation)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">Fog 20-ft radius, 20 ft high</span><span class="skey">Duration:</span><span class="sval">1 min/lvl</span></div><div class="spell-desc">Movement reduced to 5 ft/round, −2 attack and damage. Obscures beyond 5 ft. Cannot be dispersed by wind. Superior area denial vs. Fog Cloud.</div></div>
+    </div></div>
+
+    <div id="jsub-5" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-5')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">5th Level</span><span class="sub-coll-arrow" id="sarr-jsub-5">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-5">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Feeblemind</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will partial (DC 15+Cha); arcane casters −4</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One creature</span><span class="skey">Duration:</span><span class="sval">Instantaneous</span></div><div class="spell-desc">Fail: Intelligence and Charisma permanently reduced to 1. Cannot cast spells, communicate, or use Int/Cha abilities. Only Heal/Wish/Miracle can restore.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Mass Suggestion</span><span class="spell-school">Enchantment (Compulsion) [Language-Dependent, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will negates (DC 15+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">1 creature/lvl (no two 30+ ft apart)</span><span class="skey">Duration:</span><span class="sval">1 hour/lvl or until completed</span></div><div class="spell-desc">Suggestion spell affecting up to one creature per caster level simultaneously. Each saves individually. Must be reasonably phrased. Language-dependent.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Seeming</span><span class="spell-school">Illusion (Glamer)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (DC 15+Cha)</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">1 creature/2 lvls</span><span class="skey">Duration:</span><span class="sval">12 hours (D)</span></div><div class="spell-desc">Disguises each affected creature differently. Lasts 12 hours without concentration. Ideal for prolonged infiltration of the entire party.</div></div>
+    </div></div>
+
+    <div id="jsub-6" style="margin-top:6px;"><div class="sub-coll-header" onclick="toggleSub('jsub-6')"><span style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);">6th Level</span><span class="sub-coll-arrow" id="sarr-jsub-6">▶</span></div>
+    <div class="sub-coll-body" id="sbody-jsub-6">
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Otto's Irresistible Dance</span><span class="spell-school">Enchantment (Compulsion) [Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will partial each round (DC 16+Cha)</span><span class="skey">Range:</span><span class="sval">Touch</span><span class="skey">Target:</span><span class="sval">Living creature</span><span class="skey">Duration:</span><span class="sval">1d4+1 rounds</span></div><div class="spell-desc">Target dances uncontrollably — loses Dex to AC, −4 AC, attackers +4 to hit, 20% spell failure. New Will save each round. The most thematically perfect jester spell in existence.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Project Image</span><span class="spell-school">Illusion (Shadow)</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval">Will disbelief (DC 16+Cha)</span><span class="skey">Range:</span><span class="sval">Medium</span><span class="skey">Target:</span><span class="sval">One illusory duplicate</span><span class="skey">Duration:</span><span class="sval">1 round/lvl (D)</span></div><div class="spell-desc">Perfect illusory duplicate of caster. Cast spells through it — all effects appear to originate from the image. Attacks pass through harmlessly. Requires line of sight to maintain.</div></div>
+      <div class="spell-card"><div class="spell-head"><span class="spell-name">Geas/Quest</span><span class="spell-school">Enchantment (Compulsion) [Language-Dependent, Mind-Affecting]</span></div><div class="spell-stats"><span class="skey">Save:</span><span class="sval nosave">None</span><span class="skey">Range:</span><span class="sval">Close</span><span class="skey">Target:</span><span class="sval">Any living creature</span><span class="skey">Duration:</span><span class="sval">Until discharged</span></div><div class="spell-desc">Binds a creature to carry out a service or refrain from an action. No save — any HD. Ignoring the quest deals −3 to all ability scores per week. Ended by Heal, Break Enchantment, or similar.</div></div>
+    </div></div>
+  </div>
+
+  </div><!-- end jester coll-body -->
+</div>
+
+<!-- ═══════════════════════════════════ THRALL OF DEMOGORGON ═══ -->
+<div class="coll-section" id="sec-thrall">
+  <div class="coll-header" onclick="toggleSection('sec-thrall')">
+    <span class="coll-title">👁️ <span>Thrall of Demogorgon — Prestige Class</span></span>
+    <span class="coll-arrow" id="arr-sec-thrall">▶</span>
+  </div>
+  <div class="coll-body" id="body-sec-thrall">
+  <div style="background:linear-gradient(175deg,#0a0a0a 0%,#1a0005 50%,#0a0a0a 100%);padding:36px 40px 24px;text-align:center;border-bottom:2px solid var(--red-dim);">
+    <div style="font-family:'Cinzel Decorative',serif;font-size:24px;font-weight:700;color:#c94c4c;text-shadow:0 0 20px rgba(201,76,76,.4);margin-bottom:5px;">Thrall of Demogorgon</div>
+    <div style="font-family:'Cinzel',serif;font-size:11px;color:#e87a7a;letter-spacing:3px;margin-bottom:14px;">Prestige Class · Book of Vile Darkness · Adapted to 3.5e</div>
+    <div style="font-style:italic;font-size:13px;color:#aaa;max-width:500px;margin:0 auto;">"The dual-lived, dual-willed prince of the Abyss, master of the mysterious and king of the deviants, Demogorgon, you are my lord!" — Qill</div>
+    <div style="margin-top:12px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--red-dim);">Source: Book of Vile Darkness, p. 36</div>
+  </div>
+  <div class="section thrall-section">
+    <div class="thrall-section-title">Class Overview &amp; Entry Requirements</div>
+    <p class="intro-text" style="color:#bbb;">A perversion of mortal life — the Thrall has accepted the demonic so wholly they can no longer be counted as a member of their original race. At 1st, 4th, 7th, and 10th level the character gains both a bonus feat AND +1 effective caster level.</p>
+    <div class="mechanic-grid" style="border-color:var(--red-dim);">
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Hit Die:</span><span>d8</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Alignment:</span><span>Chaotic Evil (required)</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Skill Points:</span><span>4 + Int/level</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">DC Formula:</span><span>10 + class level + Cha mod</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">BAB Required:</span><span>+4</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Feats Required:</span><span>Thrall to Demon (Demogorgon), Willing Deformity</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Skills Required:</span><span>Know. (religion) 2, Know. (planes) 4, Know. (other) 2</span></div>
+      <div class="mg-row"><span class="mg-key" style="color:#c94c4c;">Special:</span><span>Must cast 1st-level spells OR sneak attack +1d6; Feast of the Self ritual</span></div>
+    </div>
+  </div>
+  <div class="section thrall-section t-prog">
+    <div class="thrall-section-title">Level Progression</div>
+    <table class="prog-table">
+      <thead><tr><th>Lvl</th><th>BAB</th><th>Fort</th><th>Ref</th><th>Will</th><th style="text-align:left;min-width:200px;">Special</th><th>Bonus/CL</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">1</td><td>+1</td><td>+2</td><td>+0</td><td>+2</td><td class="special-cell">Scaly Flesh +1, Hypnosis</td><td style="color:#e87a7a;font-size:10px;text-align:center;">Feat + +1 CL</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">2</td><td>+2</td><td>+3</td><td>+0</td><td>+3</td><td class="special-cell">Touch of Fear</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">3</td><td>+3</td><td>+3</td><td>+1</td><td>+3</td><td class="special-cell">Reaching Touch</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">4</td><td>+4</td><td>+4</td><td>+1</td><td>+4</td><td class="special-cell">Dual Actions, Scaly Flesh +2</td><td style="color:#e87a7a;font-size:10px;text-align:center;">Feat + +1 CL</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">5</td><td>+5</td><td>+4</td><td>+1</td><td>+4</td><td class="special-cell">Summon Minor Demon</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">6</td><td>+6</td><td>+5</td><td>+2</td><td>+5</td><td class="special-cell">Rotting Touch</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">7</td><td>+7</td><td>+5</td><td>+2</td><td>+5</td><td class="special-cell">Scaly Flesh +3</td><td style="color:#e87a7a;font-size:10px;text-align:center;">Feat + +1 CL</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">8</td><td>+8</td><td>+6</td><td>+2</td><td>+6</td><td class="special-cell">Two Personas, Death Touch</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">9</td><td>+9</td><td>+6</td><td>+3</td><td>+6</td><td class="special-cell">Summon Major Demon</td><td class="dash">—</td></tr>
+        <tr><td class="lvl-cell" style="color:#c94c4c;">10</td><td>+10</td><td>+7</td><td>+3</td><td>+7</td><td class="special-cell">Demogorgon's Will, Scaly Flesh +4</td><td style="color:#e87a7a;font-size:10px;text-align:center;">Feat + +1 CL</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section thrall-section">
+    <div class="thrall-section-title">Class Features by Level</div>
+    <div class="level-band"><span class="t-level-band-text">1st Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">PASSIVE</span> Scaly Flesh (Ex)</div><div class="feature-body">+1 natural armor bonus to AC. Improves to +2 at 4th, +3 at 7th, +4 at 10th.</div></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SP · 1/DAY</span> Hypnosis (Su) — Gaze Attack</div><div class="feature-body">Effect identical to the <em>hypnotism</em> spell delivered as a gaze attack with 30-ft range. Will DC: 10 + class level + Cha. Up to 2d4 HD fascinated; caster may issue one Suggestion (+2 to resisting save).</div></div>
+    <div class="t-feature-card" style="border-left-color:var(--red-dim);"><div class="t-feature-title" style="color:#c94c4c;"><span class="t-feat-badge" style="background:#2a6e00;">DM APPROVED</span> Bonus Feat and +1 Spellcasting Level</div><div class="feature-body">Gains <strong>both</strong> a bonus feat and +1 effective caster level. Running total: +1 CL, 1 feat.</div></div>
+    <div class="level-band"><span class="t-level-band-text">2nd Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SU · 3/DAY</span> Touch of Fear (Su)</div><div class="feature-body">Melee touch attack. Will DC: 10 + class level + Cha. Fail: target <strong>frightened</strong> 1d4 rounds. Success: target <strong>shaken</strong> 1 round.</div></div>
+    <div class="level-band"><span class="t-level-band-text">3rd Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SU · 3/DAY</span> Reaching Touch (Su)</div><div class="feature-body">Arms stretch unnaturally, granting +5 ft reach for <strong>1 round</strong>. Free action to activate. Applies to all melee attacks that round.</div></div>
+    <div class="level-band"><span class="t-level-band-text">4th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SU · 2/DAY</span> Dual Actions (Su)</div><div class="feature-body">Take <strong>two full rounds' worth of actions in a single round</strong>. Stacks with Haste. No saving throw — personal supernatural ability.</div></div>
+    <div class="t-feature-card" style="border-left-color:var(--red-dim);"><div class="t-feature-title" style="color:#c94c4c;"><span class="t-feat-badge" style="background:#2a6e00;">DM APPROVED</span> Bonus Feat and +1 Spellcasting Level (4th)</div><div class="feature-body">Running total: <strong>+2 CL, 2 bonus feats</strong>.</div></div>
+    <div class="level-band"><span class="t-level-band-text">5th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SP · 1/DAY</span> Summon Minor Demon (Sp) — ≤5 HD</div><div class="feature-body">Summons any demon of 5 HD or less. Available: Manes, Dretch, Quasit, Rutterkin, Bar-lgura, Jovoc, Chasme. See Demon Bestiary.</div></div>
+    <div class="level-band"><span class="t-level-band-text">6th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SU · 3/DAY</span> Rotting Touch (Su)</div><div class="feature-body">Melee touch attack deals <strong>1d6 Constitution damage</strong>. No saving throw — only a successful touch attack is needed.</div></div>
+    <div class="level-band"><span class="t-level-band-text">7th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card" style="border-left-color:var(--red-dim);"><div class="t-feature-title" style="color:#c94c4c;"><span class="t-feat-badge" style="background:#2a6e00;">DM APPROVED</span> Bonus Feat and +1 Spellcasting Level (7th)</div><div class="feature-body">Running total: <strong>+3 CL, 3 bonus feats</strong>.</div></div>
+    <div class="level-band"><span class="t-level-band-text">8th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">EX · PERMANENT</span> Two Personas (Ex)</div><div class="feature-body">Two effects: (1) Multiclass freely with no XP penalties. (2) When subjected to a mind-affecting attack, make <strong>two saving throws — both must fail</strong> for the effect to take hold.</div></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SU · 1/DAY</span> Death Touch (Su)</div><div class="feature-body">Fort DC: 10 + class level + Cha. <strong>Fail: instant death.</strong> Success: 3d6 + class level hit point damage.</div></div>
+    <div class="level-band"><span class="t-level-band-text">9th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SP · 1/DAY</span> Summon Major Demon (Sp) — ≤10 HD</div><div class="feature-body">Summons any demon of 10 HD or less. New options: Abyssal Skulker, Babau, Succubus, Kelvezu, Palrethee, Vrock, Hezrou. See Demon Bestiary.</div></div>
+    <div class="level-band"><span class="t-level-band-text">10th Level</span><hr class="t-level-band-line"></div>
+    <div class="t-feature-card"><div class="t-feature-title"><span class="t-feat-badge">SP · 1/DAY</span> Demogorgon's Will (Sp)</div><div class="feature-body">Spend 3 full rounds in prayer for a <em>limited wish</em>. Duplicates any spell 7th level or lower. XP cost applies (300–1,500 XP).</div></div>
+    <div class="t-feature-card" style="border-left-color:var(--red-dim);"><div class="t-feature-title" style="color:#c94c4c;"><span class="t-feat-badge" style="background:#2a6e00;">DM APPROVED</span> Bonus Feat and +1 Spellcasting Level (10th)</div><div class="feature-body"><strong>Grand total: +4 CL and 4 bonus feats</strong> across the full prestige class.</div></div>
+  </div>
+  <div class="section thrall-section">
+    <div class="thrall-section-title">Ability Quick-Reference</div>
+    <table class="prog-table">
+      <thead><tr><th>Ability</th><th>Gained</th><th>Uses/Day</th><th>Save Type</th><th style="text-align:left;">Effect on Fail</th></tr></thead>
+      <tbody>
+        <tr><td>Scaly Flesh</td><td style="color:#c94c4c;">1st</td><td style="color:#888;">Passive</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">+1/+2/+3/+4 natural armor</td></tr>
+        <tr><td>Hypnosis</td><td style="color:#c94c4c;">1st</td><td style="color:#e87a7a;">1</td><td style="color:#bbb;">Will</td><td style="text-align:left;color:#bbb;font-size:11px;">Fascinated; Suggestion eligible</td></tr>
+        <tr><td>Touch of Fear</td><td style="color:#c94c4c;">2nd</td><td style="color:#e87a7a;">3</td><td style="color:#bbb;">Will</td><td style="text-align:left;color:#bbb;font-size:11px;">Frightened 1d4 rnds; shaken 1 rnd on success</td></tr>
+        <tr><td>Reaching Touch</td><td style="color:#c94c4c;">3rd</td><td style="color:#e87a7a;">3</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">+5 ft reach for 1 round</td></tr>
+        <tr><td>Dual Actions</td><td style="color:#c94c4c;">4th</td><td style="color:#e87a7a;">2</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">Two full rounds of actions in one round</td></tr>
+        <tr><td>Summon Minor Demon</td><td style="color:#c94c4c;">5th</td><td style="color:#e87a7a;">1</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">Demon ≤5 HD (CL 15 equiv.)</td></tr>
+        <tr><td>Rotting Touch</td><td style="color:#c94c4c;">6th</td><td style="color:#e87a7a;">3</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">1d6 Con damage (touch attack)</td></tr>
+        <tr><td>Two Personas</td><td style="color:#c94c4c;">8th</td><td style="color:#888;">Passive</td><td style="color:#888;">N/A</td><td style="text-align:left;color:#bbb;font-size:11px;">Free multiclassing; double saves vs mind effects</td></tr>
+        <tr><td>Death Touch</td><td style="color:#c94c4c;">8th</td><td style="color:#e87a7a;">1</td><td style="color:#bbb;">Fort</td><td style="text-align:left;color:#bbb;font-size:11px;">Instant death; 3d6+level on success</td></tr>
+        <tr><td>Summon Major Demon</td><td style="color:#c94c4c;">9th</td><td style="color:#e87a7a;">1</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">Demon ≤10 HD (CL 15 equiv.)</td></tr>
+        <tr><td>Demogorgon's Will</td><td style="color:#c94c4c;">10th</td><td style="color:#e87a7a;">1</td><td style="color:#888;">None</td><td style="text-align:left;color:#bbb;font-size:11px;">Limited Wish (3-round cast; XP cost applies)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ DEMON BESTIARY ══════ -->
+<div class="coll-section" id="sec-bestiary">
+  <div class="coll-header" onclick="toggleSection('sec-bestiary')">
+    <span class="coll-title">☠ <span>Demon Bestiary — Summonable Demons</span></span>
+    <span class="coll-arrow" id="arr-sec-bestiary">▶</span>
+  </div>
+  <div class="coll-body" id="body-sec-bestiary">
+  <div style="background:linear-gradient(175deg,#080808 0%,#120005 50%,#080808 100%);padding:28px 40px 20px;text-align:center;border-bottom:2px solid var(--red-dim);">
+    <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--red-dim);margin-bottom:6px;">Standard Tanar'ri Traits: Immunity to electricity &amp; poison · Resistance acid/cold/fire 10 · Darkvision 60 ft · Telepathy 100 ft · Weapons treated as chaotic-evil for DR</div>
+  </div>
+  <div style="padding:16px 36px 8px;"><div style="font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:2px;color:#e87a7a;text-transform:uppercase;padding-bottom:4px;border-bottom:1px solid #5a1020;">⚔ Minor Demons — ≤5 HD (Available from 5th Level)</div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Manes</span><span class="demon-type">Small Outsider · CR 1 · 1 HD · Book of Vile Darkness</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">A bloated, pale humanoid ~3 ft tall. Hairless, crawling with maggots, weeping eyes. When destroyed, dissolves into an acidic vapor cloud.</div>The lowest of demonkind — barely intelligent cannon fodder. Their value is purely in numbers and the toxic cloud on death.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">1d8 (4 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">14 (touch 11, FF 14)</span></div><div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">20 ft</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +2 (1d3) / bite +0 (1d4)</span></div><div class="stat-row"><span class="stat-label">Saves</span><span class="stat-val">Fort +2, Ref +2, Will −2</span></div><hr class="stat-divider"><div class="stat-row"><span class="stat-label">STR/DEX/CON</span><span class="stat-val">10 / 10 / 10</span></div><div class="stat-row"><span class="stat-label">INT/WIS/CHA</span><span class="stat-val">3 / 3 / 3</span></div><div class="stat-row"><span class="stat-label">DR</span><span class="stat-val">5/magic</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Acidic Cloud (Ex):</span> On death, dissolves into a noxious vapor cloud dealing acid damage to nearby creatures.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Dretch</span><span class="demon-type">Small Outsider · CR 2 · 2 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Squat hunchback, 4 ft / 60 lbs. Pale rubbery flesh, bristly hairs, pulsing varicose veins. Slanted eyes, squashed nose, cracked yellow teeth.</div>Cannon fodder demons that rely on stinking cloud and numbers. Cowardly — will flee toward stronger demons rather than die.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">2d8+4 (13 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">16 (touch 11, FF 16)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +4 (1d6+1) / bite +2 (1d4)</span></div><div class="stat-row"><span class="stat-label">Saves</span><span class="stat-val">Fort +5, Ref +3, Will +3</span></div><hr class="stat-divider"><div class="stat-row"><span class="stat-label">STR/DEX/CON</span><span class="stat-val">12 / 10 / 14</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">5/cold iron or good · SR 11</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — darkness, scare, telekinesis; 1/day — stinking cloud (DC 13).</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Quasit</span><span class="demon-type">Tiny Outsider · CR 3 · 3 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Tiny at 1.5 ft / 8 lbs. Green leathery skin, bat wings, two stubby horns, large glowing red/amber eyes. Needle-sharp claws slick with pale venom.</div>Natural spy and corruptor. Cowardly but cunning; strikes from invisibility and flees when outmatched.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">3d8 (13 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">18 (touch 15, FF 15)</span></div><div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">20 ft, fly 50 ft (perfect)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +8 (1d3−1 + poison) / bite +3 (1d4−1)</span></div><div class="stat-row"><span class="stat-label">Saves</span><span class="stat-val">Fort +3, Ref +6, Will +4</span></div><hr class="stat-divider"><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">5/cold iron or good · SR 5</span></div><div class="stat-row"><span class="stat-label">Fast Healing</span><span class="stat-val">2</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Poison (Ex):</span> Claw — Fort DC 11, initial/secondary 1d4 Con damage.</div><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — detect good, detect magic, invisibility (self); 1/day — cause fear, commune.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Rutterkin</span><span class="demon-type">Medium Outsider · CR 3 · 3 HD · Book of Vile Darkness</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Squat, deformed humanoid with mottled green-grey skin and patches of exposed bone. Milky white eyes, oversized fanged mouth, disproportionately long arms.</div>Failed demons — manes that survived without truly ascending. Spiteful and violent; cannot be reasoned with.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">5d8+10 (32 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">18 (touch 12, FF 16)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">Double axe +5/+5 (1d8+2/1d8+1) or 2 claws +7 (1d6+2)</span></div><div class="stat-row"><span class="stat-label">Saves</span><span class="stat-val">Fort +6, Ref +6, Will +5</span></div><hr class="stat-divider"><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">5/silver · SR 14</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — darkness, cause fear, telekinesis; 1/day — desecrate. CL 6th.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Bar-lgura</span><span class="demon-type">Medium Outsider · CR 5 · 4 HD · Book of Vile Darkness</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Powerful demonic ape-man with extraordinarily long knuckle-dragging arms. Skin cycles through mottled greens and greys like a chameleon. Moves with unnerving silence.</div>Ambush predator — teleports above prey, drops in a pouncing charge, and grips with improved grab.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">6d8+18 (45 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">22 (touch 14, FF 18)</span></div><div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">40 ft, climb 20 ft</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +10 (1d6+4) / bite +5 (1d8+2)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/cold iron or good · SR 16</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Pounce (Ex):</span> Full attack on a charge.</div><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — greater teleport (self+50 lbs), chaos hammer, shatter, telekinesis.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Jovoc</span><span class="demon-type">Medium Outsider · CR 4 · 4 HD · Monster Manual II</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Short, pudgy humanoid ~4.5 ft with deep bruised purple-black skin covered in lumps and carbuncles. Pure white eyes, no pupils. Mouth too wide for its face.</div>Defined entirely by its retribution aura — every blow against it immediately damages the attacker.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">4d8+12 (30 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">17 (touch 10, FF 17)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +7 (1d6+3) / bite +2 (1d4+1)</span></div><div class="stat-row"><span class="stat-label">DR</span><span class="stat-val">10/good</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Retribution Aura (Su):</span> Any creature dealing HP damage to the jovoc takes the same damage immediately. No save.</div><div class="ability-row"><span class="ability-name">Taint (Su):</span> Creatures the jovoc kills rise as dretches 1d4 rounds later.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Chasme</span><span class="demon-type">Large Outsider · CR 6 · 5 HD · Book of Vile Darkness</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Nightmarish fusion of humanoid and giant fly, ~8 ft tall. Compound eyes, proboscis mouth, two pairs of large wings. Wings produce a resonant drone. Wounds from its bite continue to bleed indefinitely.</div>Harasser and attrition demon. Sleep-inducing drone incapacitates groups before it descends to feed.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">9d8+36 (76 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">26 (touch 12, FF 23)</span></div><div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">30 ft, fly 50 ft (perfect)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +12 (1d8+4) / bite +10 (1d6+2) / gore +10 (1d6+2)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">20/magic · SR 23</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Drone (Su):</span> Full-round; 60-ft spread; Will DC 16 or asleep 2d10 rounds (no HD limit).</div><div class="ability-row"><span class="ability-name">Wounding (Ex):</span> Bite causes 1 hp/round bleeding per wound until healed.</div></div></div></div>
+  <div style="padding:14px 36px 6px;"><div style="font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:2px;color:#e87a7a;text-transform:uppercase;padding-bottom:4px;border-bottom:1px solid #5a1020;">☠ Major Demons — ≤10 HD (Available from 9th Level)</div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Abyssal Skulker</span><span class="demon-type">Medium Outsider · CR 5 · 6 HD · Monster Manual II</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Wiry and lean, ~5 ft. Form shifts at the edges like living shadow. Skin deep charcoal, indistinguishable from darkness. Moves in absolute silence.</div>The consummate spy. Highest Hide/Move Silently of any summonable demon, sneak attack damage, and free teleport.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">6d8+6 (33 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">17 (touch 13, FF 14)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +8 (1d6+2) / bite +3 (1d4+1)</span></div><div class="stat-row"><span class="stat-label">DR</span><span class="stat-val">5/good</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Sneak Attack (Ex):</span> +2d6 damage when flanking or target denied Dex to AC.</div><div class="ability-row"><span class="ability-name">Skills:</span> Hide +16, Move Silently +16.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Babau</span><span class="demon-type">Medium Outsider · CR 6 · 7 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Gaunt and skeletal, 6–7 ft / 140 lbs. Jet black leathery hide stretched tight over bones. Single curved horn. Deep red glowing eyes. Entire body coated in glistening caustic red slime.</div>Premier assassin demon. Lurks invisibly, flanks, delivers sneak attacks, then melts back into darkness.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">7d8+35 (59 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">19 (touch 11, FF 18)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +12 (1d6+5) / bite +7 (1d6+2)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/cold iron or good · SR 14</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Sneak Attack (Ex):</span> +2d6 damage when flanking or Dex-denied.</div><div class="ability-row"><span class="ability-name">Protective Slime (Su):</span> Weapons striking babau take 1d8 acid. Unarmed attackers take same.</div><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — darkness, dispel magic, see invisibility, greater teleport; 1/day — wrack.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Succubus</span><span class="demon-type">Medium Outsider · CR 7 · 7 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Stunning and statuesque with flawless skin. Large leathery bat wings (12-ft span). Eyes glow with sinister predatory intent. In disguise, indistinguishable from a mortal.</div>Premier infiltration asset. Energy drain kiss, at-will charm and suggestion, and perfect disguise make it unmatched for social manipulation.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">6d8+6 (33 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">20 (touch 11, FF 19)</span></div><div class="stat-row"><span class="stat-label">Speed</span><span class="stat-val">30 ft, fly 50 ft (average)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/cold iron or good · SR 18</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Energy Drain (Su):</span> Kiss bestows 1 negative level + Suggestion (Will DC 21). Fort DC 21 to remove.</div><div class="ability-row"><span class="ability-name">Spell-Like Abilities:</span> At will — charm monster (DC 22), detect good/thoughts, ethereal jaunt, polymorph, suggestion (DC 21), greater teleport; 1/day — unholy blight.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Kelvezu</span><span class="demon-type">Medium Outsider · CR 8 · 8 HD · Monster Manual II</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Tall and angular, ~6.5 ft. Composed of living shadow — semi-transparent even in solid form. Smooth featureless face except for two deep-set pale violet glowing eyes.</div>The ultimate anti-caster demon. Becomes incorporeal at will to bypass all defenses, and its Wisdom drain erodes spellcasters' mental fortitude.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">8d8+16 (52 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">18 (touch 14, FF 15)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +11 (1d6+3 + Wis drain)</span></div><div class="stat-row"><span class="stat-label">DR</span><span class="stat-val">10/good</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Incorporeal (Su):</span> At will, free action. Immune to all nonmagical attacks; pass through solid matter.</div><div class="ability-row"><span class="ability-name">Wisdom Drain (Su):</span> Claw drains 2d4 Wis (permanent drain — restoration required).</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Palrethee</span><span class="demon-type">Medium Outsider · CR 7 · 8 HD · Monster Manual II</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">A tall, broadly built demon wreathed entirely in guttering orange-red flames. The charred black body beneath is roughly humanoid. Leaves scorched footprints wherever it walks.</div>A living weapon of attrition. Melee attackers risk fire damage in return, and grappling it is suicidal.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">8d8+24 (60 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">20 (touch 12, FF 18)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 slams +12 (1d8+4 + 1d6 fire)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/good · SR 16</span></div><div class="stat-row"><span class="stat-label">Immunity</span><span class="stat-val">Fire (complete)</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Flame Body (Su):</span> Natural weapon strikes on palrethee: 1d6 fire damage to attacker. Grappling: 2d6 fire/round.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Vrock</span><span class="demon-type">Large Outsider · CR 9 · 10 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Eight feet tall, 500 lbs. Monstrous humanoid vulture — hooked beak, red-rimmed eyes, crest of filthy black feathers. Wings span 12 ft of matted oily plumage.</div>Most powerful standard demon at this tier. Spore clouds, stunning screech, and flight create immediate area control.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">10d8+70 (115 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">22 (touch 11, FF 20)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">2 claws +15 (2d6+6) / bite +13 (1d8+3) / 2 talons +13 (1d6+3)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/good · SR 17</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Spores (Ex):</span> Every 3 rounds; 5-ft radius; 1d8 on release, then 1d2/round for 10 rounds.</div><div class="ability-row"><span class="ability-name">Stunning Screech (Su):</span> 1/hour; 30-ft radius; Fort DC 17 or stunned 1 round.</div></div></div></div>
+  <div class="demon-card"><div class="demon-card-head"><span class="demon-name">Hezrou</span><span class="demon-type">Large Outsider · CR 11 · 10 HD · Monster Manual</span></div><div class="demon-body"><div class="demon-lore"><div class="appearance">Massive toad-like demon, 8 ft tall / 750 lbs. Warty mottled green-black skin. Head nearly all mouth — a vast maw of irregular fangs. Tiny red eyes, hands and feet end in powerful talons.</div>The toughest pure melee demon available — 138 hit points, stench aura that renders most opponents helpless, and improved grab.</div><div class="demon-stats"><div class="stat-row"><span class="stat-label">HD / HP</span><span class="stat-val">10d8+93 (138 hp)</span></div><div class="stat-row"><span class="stat-label">AC</span><span class="stat-val">23 (touch 9, FF 23)</span></div><div class="stat-row"><span class="stat-label">Attacks</span><span class="stat-val">Bite +14 (4d4+5) / 2 claws +9 (1d8+2)</span></div><div class="stat-row"><span class="stat-label">DR / SR</span><span class="stat-val">10/good · SR 19</span></div><hr class="stat-divider"><div class="ability-row"><span class="ability-name">Stench (Ex):</span> 10-ft radius; Fort DC 17 or nauseated while in range + 1d4 rounds after.</div><div class="ability-row"><span class="ability-name">Improved Grab (Ex):</span> On bite hit, free grapple attempt without AoO.</div></div></div></div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:14px;font-size:11px;color:var(--text-muted);border-top:2px solid var(--border-gold);background:var(--bg-header);font-style:italic;">
+  Source: Dragon Compendium p.36 (Jester) · Book of Vile Darkness (Thrall of Demogorgon) · Monster Manual &amp; supplementals (Demon stats) · All DCs = 10 + Spell/Class Level + Cha modifier · DM house rule: Thrall gains both feat and +1 CL at advancement levels.
+</div>
+
+</div><!-- end .page -->
+
+<script>
+// ══════════════════════════════════════════════
+// COLLAPSIBLE SECTIONS
+// ══════════════════════════════════════════════
+function toggleSection(id){
+  const body=document.getElementById('body-'+id),arr=document.getElementById('arr-'+id),hdr=document.querySelector('#'+id+' .coll-header');
+  const open=body.classList.toggle('open');
+  arr.classList.toggle('open',open);hdr.classList.toggle('open',open);
+}
+function toggleSub(id){
+  const body=document.getElementById('sbody-'+id),arr=document.getElementById('sarr-'+id);
+  const open=body.classList.toggle('open');arr.classList.toggle('open',open);
+}
+function expandAll(){
+  ['sec-char','sec-jester','sec-thrall','sec-bestiary'].forEach(id=>{
+    document.getElementById('body-'+id).classList.add('open');
+    document.getElementById('arr-'+id)?.classList.add('open');
+    document.querySelector('#'+id+' .coll-header')?.classList.add('open');
+  });
+  ['jsub-0','jsub-1','jsub-2','jsub-3','jsub-4','jsub-5','jsub-6'].forEach(id=>{
+    document.getElementById('sbody-'+id)?.classList.add('open');
+    document.getElementById('sarr-'+id)?.classList.add('open');
+  });
+}
+function collapseAll(){
+  ['sec-char','sec-jester','sec-thrall','sec-bestiary'].forEach(id=>{
+    document.getElementById('body-'+id).classList.remove('open');
+    document.getElementById('arr-'+id)?.classList.remove('open');
+    document.querySelector('#'+id+' .coll-header')?.classList.remove('open');
+  });
+  ['jsub-0','jsub-1','jsub-2','jsub-3','jsub-4','jsub-5','jsub-6'].forEach(id=>{
+    document.getElementById('sbody-'+id)?.classList.remove('open');
+    document.getElementById('sarr-'+id)?.classList.remove('open');
+  });
+}
+function jumpTo(id){
+  const el=document.getElementById(id);if(!el)return;
+  if(!document.getElementById('body-'+id).classList.contains('open'))toggleSection(id);
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ══════════════════════════════════════════════
+// LOCK
+// ══════════════════════════════════════════════
+let locked=false;
+function toggleLock(){
+  locked=!locked;
+  document.body.classList.toggle('locked',locked);
+  const btn=document.getElementById('lock-btn');
+  btn.classList.toggle('locked',locked);
+  btn.textContent=locked?'🔒 Locked — editing disabled':'🔓 Unlocked — editing enabled';
+  document.querySelectorAll('[contenteditable]').forEach(el=>{el.contentEditable=locked?'false':'true';});
+  setStatus(locked?'Sheet locked':'Sheet unlocked — changes enabled');
+}
+
+// ══════════════════════════════════════════════
+// CHARACTER SHEET DATA & DEFAULTS
+// ══════════════════════════════════════════════
+const STORE_KEY='dandelo-v3';
+const DEFAULTS={
+  abilities:[
+    {name:'Strength',score:'10',mod:'+0'},{name:'Dexterity',score:'16',mod:'+3'},
+    {name:'Constitution',score:'14',mod:'+2'},{name:'Intelligence',score:'14',mod:'+2'},
+    {name:'Wisdom',score:'9',mod:'−1'},{name:'Charisma',score:'19',mod:'+4'}
+  ],
+  feats:[
+    {n:'Thrall to Demon (Demogorgon)',b:false},{n:'Spell Focus (Enchantment)',b:false},
+    {n:'Willing Deformity',b:false},{n:'Weapon Finesse',b:false},
+    {n:'Greater Spell Focus (Enchantment)',b:false},
+    {n:'Bonus: Deflect Arrows',b:true},{n:'Bonus: Snatch Arrows',b:true}
+  ],
+  attacks:[
+    {name:'The Grinning Needle (+1 Rapier)',bonus:'+5',dmg:'1d6+1',crit:'18–20/×2',range:'5 ft',type:'Piercing',notes:'Effective vs flat-footed, stunned, dazed, paralyzed, helpless, surprised'},
+    {name:'Feint (Action)',bonus:'—',dmg:'—',crit:'—',range:'10 ft',type:'Social',notes:'Bluff vs Sense Motive; success denies Dex to AC'}
+  ],
+  skills:[
+    {n:'Balance',cs:true,ab:'Dex*',t:'3',r:'0',m:'—'},{n:'Bluff',cs:true,ab:'Cha',t:'15',r:'9',m:'+2'},
+    {n:'Climb',cs:true,ab:'Str*',t:'0',r:'0',m:'—'},{n:'Concentration',cs:false,ab:'Con',t:'6',r:'4',m:'—'},
+    {n:'Craft (Artistic Comp.)',cs:false,ab:'Int',t:'6',r:'4',m:'—'},{n:'Diplomacy',cs:true,ab:'Cha',t:'8',r:'4',m:'—'},
+    {n:'Disguise',cs:true,ab:'Cha',t:'7',r:'4',m:'+3 item'},{n:'Escape Artist',cs:true,ab:'Dex*',t:'4',r:'1',m:'—'},
+    {n:'Gather Information',cs:true,ab:'Cha',t:'13',r:'9',m:'—'},{n:'Handle Animal',cs:false,ab:'Cha',t:'8',r:'4',m:'—'},
+    {n:'Hide',cs:true,ab:'Dex*',t:'3',r:'0',m:'—'},{n:'Intimidate',cs:true,ab:'Cha',t:'12',r:'8',m:'—'},
+    {n:'Jump',cs:true,ab:'Str*',t:'0',r:'0',m:'—'},{n:'Knowledge (Planes)',cs:false,ab:'Int',t:'7',r:'5',m:'—'},
+    {n:'Knowledge (Nobility)',cs:false,ab:'Int',t:'4',r:'2',m:'—'},{n:'Knowledge (Religion)',cs:false,ab:'Int',t:'4',r:'2',m:'—'},
+    {n:'Listen',cs:true,ab:'Wis',t:'−1',r:'0',m:'—'},{n:'Move Silently',cs:true,ab:'Dex*',t:'3',r:'0',m:'—'},
+    {n:'Perform (Comedy)',cs:true,ab:'Cha',t:'18',r:'9',m:'+5 gloves'},{n:'Ride',cs:false,ab:'Dex',t:'3',r:'0',m:'—'},
+    {n:'Search',cs:true,ab:'Int',t:'2',r:'0',m:'—'},{n:'Sense Motive',cs:true,ab:'Wis',t:'8',r:'9',m:'—'},
+    {n:'Sleight of Hand',cs:true,ab:'Dex*',t:'9',r:'3',m:'+5 gloves'},{n:'Spot',cs:true,ab:'Wis',t:'3.5',r:'4.5',m:'—'},
+    {n:'Tumble',cs:true,ab:'Dex*',t:'12',r:'9',m:'—'},{n:'Use Magic Device',cs:true,ab:'Cha',t:'4',r:'1',m:'—'},
+    {n:'Use Rope',cs:true,ab:'Dex',t:'3',r:'0',m:'—'}
+  ],
+  spellSlots:[
+    {lvl:'0th',known:'6',pd:'3',bonus:'0',dc:'DC 14'},
+    {lvl:'1st',known:'4',pd:'3',bonus:'1',dc:'DC 15 / Save 17'},
+    {lvl:'2nd',known:'3',pd:'2',bonus:'1',dc:'DC 16 / Save 18'}
+  ],
+  spells:[
+    {lvl:0,name:'Detect Magic',note:'At will (Cap)'},{lvl:0,name:'Ventriloquism',note:'At will (Cap)'},
+    {lvl:0,name:'Ghost Sound',note:'At will (Cap)'},{lvl:0,name:'Create Water',note:'—'},
+    {lvl:0,name:'Dancing Lights',note:'—'},{lvl:0,name:'Daze',note:'DC 14'},
+    {lvl:0,name:'Mage Hand',note:'At will (Gloves)'},{lvl:0,name:'Prestidigitation',note:'—'},
+    {lvl:1,name:"Tasha's Hideous Laughter",note:'DC 17'},{lvl:1,name:'Sanctuary',note:'DC 15'},
+    {lvl:1,name:'Grease',note:'DC 15 Ref'},{lvl:1,name:'Lesser Confusion',note:'DC 17 (Enchant)'},
+    {lvl:2,name:'Invisibility',note:'—'},{lvl:2,name:'Touch of Idiocy',note:'Touch, no save'},
+    {lvl:2,name:'Enthrall',note:'DC 18 (Enchant)'}
+  ],
+  abilities_txt:[
+    {h:"JESTER'S AUDACITY +2 (Ex)",b:"+2 dodge bonus to AC (capped at Cha mod +4)."},
+    {h:"JESTER'S PERFORMANCE — 6/day",b:"DC = 10 + ½ level + Cha. Current: DC 17."},
+    {h:"FASCINATE (Sp)",b:"Up to 2 creatures in 90 ft. Will DC 17 or fascinated ≤6 rounds. −4 Spot/Listen."},
+    {h:"INSPIRING QUIP (Su)",b:"Immediate on enemy miss. Allies 30 ft: +2 morale to attacks vs that foe."},
+    {h:"TAUNT (Su)",b:"60 ft. Will DC 17 or +1 attack/−2 AC; must charge/move toward Dandelo."},
+    {h:"CALMING PERFORMANCE (Su)",b:"Fascinated creatures → Friendly. Lasts 60 min (10×level 6)."}
+  ],
+  hpCurrent:40,perfUsed:0,sessNotes:'',eqExtra:''
+};
+
+let S={},dirty=false;
+function csMark(){dirty=true;setStatus('Unsaved changes');}
+function setStatus(m){document.getElementById('cs-status').textContent=m;}
+
+async function csLoad(){
+  setStatus('Loading…');
+  try{const r=await window.storage.get(STORE_KEY);S=r&&r.value?JSON.parse(r.value):deepClone(DEFAULTS);setStatus('Loaded ✓');}
+  catch(e){try{const ls=localStorage.getItem(STORE_KEY);S=ls?JSON.parse(ls):deepClone(DEFAULTS);setStatus('Loaded (local) ✓');}catch(e2){S=deepClone(DEFAULTS);setStatus('Defaults loaded');}}
+  render();
+}
+async function csReset(){
+  if(!confirm('Reset to original character data? All edits will be lost.'))return;
+  S=deepClone(DEFAULTS);dirty=true;await csAutoSave();render();setStatus('Reset complete');
+}
+async function csAutoSave(){
+  if(!dirty)return;
+  collectInputs();
+  const payload=JSON.stringify(S);let saved=false;
+  try{const r=await window.storage.set(STORE_KEY,payload);if(r)saved=true;}catch(e){}
+  if(!saved){try{localStorage.setItem(STORE_KEY,payload);saved=true;}catch(e2){}}
+  if(saved){setStatus('Saved ✓ '+new Date().toLocaleTimeString());dirty=false;}
+  else{setStatus('⚠ Save failed');showFallback(payload);}
+}
+async function csManualSave(){dirty=true;await csAutoSave();}
+setInterval(csAutoSave,90000);
+function showFallback(json){
+  let fb=document.getElementById('cs-fallback');
+  if(!fb){fb=document.createElement('div');fb.id='cs-fallback';fb.style.cssText='background:#1a0005;border:1px solid #c94c4c;padding:8px 12px;margin:0 0 6px;font-size:11px;';
+  fb.innerHTML='<div style="color:#c94c4c;font-family:Cinzel,serif;font-size:9px;margin-bottom:4px;">⚠ SAVE UNAVAILABLE — Copy JSON to restore:</div><textarea id="cs-fallback-ta" style="width:100%;height:60px;background:#111;color:#aaa;border:1px solid #444;font-size:10px;font-family:monospace;padding:3px;" readonly></textarea>';
+  document.querySelector('.save-bar').after(fb);}
+  document.getElementById('cs-fallback-ta').value=json;
+}
+function deepClone(o){return JSON.parse(JSON.stringify(o));}
+
+function collectInputs(){
+  S.meta={name:document.getElementById('b-name').textContent,sub:document.getElementById('b-sub').textContent};
+  ['player','race','align','deity','level','age','hw','eyes'].forEach(k=>{const e=document.getElementById('m-'+k);if(e)S.meta[k]=e.value;});
+  S.abilities.forEach((a,i)=>{a.score=document.getElementById('ab-s-'+i)?.value||a.score;a.mod=document.getElementById('ab-m-'+i)?.value||a.mod;});
+  const ids=['hp-max','hp-nl','c-ac','c-ac-d','c-spd','c-init','c-init-d','c-bab','c-grp','c-grp-d','c-sr','c-dr','c-xp',
+    's-fort','s-fort-d','s-ref','s-ref-d','s-will','s-will-d','s-cond','a-name','a-type','a-dex','a-sf','a-shield','a-other',
+    'mo-pp','mo-gp','mo-sp','mo-cp','mo-wt','mo-load','mo-lang','sk-maxr','sk-maxc','perf-max','perf-dc'];
+  ids.forEach(id=>{const e=document.getElementById(id);if(e)S['_'+id]=e.value;});
+  S.hpCurrent=parseInt(document.getElementById('hp-cur').textContent)||S.hpCurrent;
+  S.skills.forEach((sk,i)=>{sk.t=document.getElementById('skt-'+i)?.value||sk.t;sk.r=document.getElementById('skr-'+i)?.value||sk.r;sk.m=document.getElementById('skm-'+i)?.value||sk.m;});
+  S.spellSlots.forEach((sl,i)=>{sl.known=document.getElementById('ss-kn-'+i)?.value||sl.known;sl.pd=document.getElementById('ss-pd-'+i)?.value||sl.pd;sl.bonus=document.getElementById('ss-bo-'+i)?.value||sl.bonus;sl.dc=document.getElementById('ss-dc-'+i)?.value||sl.dc;});
+  S.abilities_txt.forEach((ab,i)=>{ab.h=document.getElementById('abt-h-'+i)?.value||ab.h;ab.b=document.getElementById('abt-b-'+i)?.value||ab.b;});
+  S.sessNotes=document.getElementById('sess-notes')?.value||'';
+  S.eqExtra=document.getElementById('eq-extra')?.value||'';
+}
+
+function render(){renderMeta();renderAbilities();renderAttacks();renderFeats();renderSkills();renderSpellSlots();renderSpells();renderAbilityCards();renderPerf();restoreInputs();}
+
+function renderMeta(){
+  if(!S.meta)return;
+  document.getElementById('b-name').textContent=S.meta.name||'Dandelo Drater';
+  document.getElementById('b-sub').textContent=S.meta.sub||'';
+  ['player','race','align','deity','level','age','hw','eyes'].forEach(k=>{const e=document.getElementById('m-'+k);if(e&&S.meta[k])e.value=S.meta[k];});
+}
+function renderAbilities(){
+  const g=document.getElementById('ability-grid');g.innerHTML='';
+  S.abilities.forEach((a,i)=>{g.innerHTML+=`<div class="ability-box"><div class="ab-name">${a.name}</div><input class="cs-input big" id="ab-s-${i}" value="${a.score}" onchange="csMark()"><input class="cs-input mod-i" id="ab-m-${i}" value="${a.mod}" onchange="csMark()"></div>`;});
+}
+
+// ══════════════════════════════════════════════
+// ROLL BUTTON HELPERS
+// ══════════════════════════════════════════════
+function copyRoll(el,text){
+  navigator.clipboard.writeText(text).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+  el.classList.add('copied');setTimeout(()=>el.classList.remove('copied'),1800);
+}
+function mkBtn(cmd,label,extraClass=''){
+  const safe=cmd.replace(/'/g,"\\'");
+  return `<span class="roll-cmd${extraClass?(' '+extraClass):''}" onclick="copyRoll(this,'${safe}')">${cmd}<span class="copy-toast">✓ Copied!</span><span style="font-size:8.5px;color:rgba(82,183,136,.6);margin-left:3px;">${label}</span></span>`;
+}
+
+const ATTACK_ROLLS={
+  'The Grinning Needle (+1 Rapier)':{atk:'!roll 1d20+5',dmg:'!roll 1d6+1'},
+  'Feint (Action)':{atk:'!roll 1d20+15',note:'Bluff check vs Sense Motive'},
+};
+const SPELL_ROLLS={
+  'Daze':{roll:'!roll 1d20',label:'vs Will DC 14'},
+  'Flare':{roll:'!roll 1d20',label:'vs Fort DC 14'},
+  "Tasha's Hideous Laughter":{roll:'!roll 1d20',label:'vs Will DC 17'},
+  'Bane':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Cause Fear':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Charm Person':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Color Spray':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Command':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Doom':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Grease':{roll:'!roll 1d20',label:'vs Ref DC 15'},
+  'Hypnotism':{roll:'!roll 2d4',label:'HD affected'},
+  'Lesser Confusion':{roll:'!roll 1d20',label:'vs Will DC 17'},
+  'Sleep':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Sanctuary':{roll:'!roll 1d20',label:'vs Will DC 15'},
+  'Daze Monster':{roll:'!roll 1d20',label:'vs Will DC 16'},
+  'Enthrall':{roll:'!roll 1d20',label:'vs Will DC 18'},
+  'Glitterdust':{roll:'!roll 1d20',label:'vs Will DC 16 (blind)'},
+  'Pyrotechnics':{roll:'!roll 1d20',label:'vs Will/Fort DC 16'},
+  'Touch of Idiocy':{roll:'!roll 1d6',label:'Int/Wis/Cha dmg each'},
+  'Confusion':{roll:'!roll 1d20',label:'vs Will DC 17'},
+  'Crushing Despair':{roll:'!roll 1d20',label:'vs Will DC 17'},
+  'Rage':{roll:'!roll 1d20',label:'vs Will DC 17'},
+  'Hold Monster':{roll:'!roll 1d20',label:'vs Will DC 18'},
+  'Modify Memory':{roll:'!roll 1d20',label:'vs Will DC 18'},
+  'Rainbow Pattern':{roll:'!roll 1d20',label:'vs Will DC 18'},
+  'Feeblemind':{roll:'!roll 1d20',label:'vs Will DC 19 (arcane −4)'},
+  'Mass Suggestion':{roll:'!roll 1d20',label:'vs Will DC 19 (each)'},
+  "Otto's Irresistible Dance":{roll:'!roll 1d20',label:'vs Will DC 20 (each rnd)'},
+};
+
+const ALL_SPELLS_BY_LEVEL={
+  0:['Create Water','Dancing Lights','Daze','Detect Magic','Flare','Light','Mage Hand','Mending','Open/Close','Prestidigitation'],
+  1:['Animate Rope','Bane','Cause Fear','Charm Person','Color Spray','Command','Disguise Self','Doom','Entropic Shield','Expeditious Retreat','Feather Fall','Grease','Hypnotism','Jump','Lesser Confusion',"Nystul's Magic Aura",'Remove Fear','Sanctuary','Silent Image','Sleep',"Tasha's Hideous Laughter",'Undetectable Alignment','Ventriloquism'],
+  2:['Alter Self','Blur','Daze Monster',"Eagle's Splendor",'Enthrall','Fog Cloud','Glitterdust','Invisibility','Mirror Image','Pyrotechnics','Rope Trick','Touch of Idiocy'],
+  3:['Confusion','Crushing Despair','Displacement','Gaseous Form','Haste','Invisibility Sphere','Rage'],
+  4:['Hold Monster','Minor Creation','Modify Memory','Rainbow Pattern','Solid Fog'],
+  5:['Feeblemind','Mass Suggestion','Seeming'],
+  6:["Otto's Irresistible Dance",'Project Image','Geas/Quest'],
+};
+
+function renderAttacks(){
+  const b=document.getElementById('attacks-body');b.innerHTML='';
+  S.attacks.forEach((atk,i)=>{
+    const rc=ATTACK_ROLLS[atk.name]||{};
+    let rollHtml='';
+    if(rc.atk||rc.dmg||rc.note){
+      rollHtml=`<div class="roll-block">
+        <span class="roll-block-label">🎲 Roll</span>`;
+      if(rc.atk) rollHtml+=`<div class="roll-group"><span class="roll-group-title">Attack</span>${mkBtn(rc.atk,'click to copy')}</div>`;
+      if(rc.dmg) rollHtml+=`<div class="roll-group"><span class="roll-group-title">Damage</span>${mkBtn(rc.dmg,'click to copy')}</div>`;
+      if(rc.note) rollHtml+=`<span style="font-size:10px;color:var(--text-muted);font-style:italic;">${rc.note}</span>`;
+      rollHtml+=`</div>`;
+    }
+    b.innerHTML+=`<div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:6px 8px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+        <input class="cs-input" style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);flex:1;" value="${atk.name}" onchange="S.attacks[${i}].name=this.value;renderAttacks();csMark()">
+        <span class="del-btn" onclick="delAttack(${i})">✕</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;font-size:10.5px;">
+        <div><span style="color:#e8e8e8;">Bonus:</span><input class="cs-input" style="width:46px;color:var(--gold);font-weight:600;" value="${atk.bonus}" onchange="S.attacks[${i}].bonus=this.value;csMark()"></div>
+        <div><span style="color:#e8e8e8;">Dmg:</span><input class="cs-input" style="width:54px;color:var(--gold);font-weight:600;" value="${atk.dmg}" onchange="S.attacks[${i}].dmg=this.value;csMark()"></div>
+        <div><span style="color:#e8e8e8;">Crit:</span><input class="cs-input" style="width:64px;color:#e8e8e8;" value="${atk.crit}" onchange="S.attacks[${i}].crit=this.value;csMark()"></div>
+        <div><span style="color:#e8e8e8;">Range:</span><input class="cs-input" style="width:46px;color:#e8e8e8;" value="${atk.range}" onchange="S.attacks[${i}].range=this.value;csMark()"></div>
+        <div><span style="color:#e8e8e8;">Type:</span><input class="cs-input" style="width:56px;color:#e8e8e8;" value="${atk.type}" onchange="S.attacks[${i}].type=this.value;csMark()"></div>
+      </div>
+      <input class="cs-input detail" style="width:100%;margin-top:2px;color:#e8e8e8;" value="${atk.notes}" placeholder="Notes…" onchange="S.attacks[${i}].notes=this.value;csMark()">
+      ${rollHtml}
+    </div>`;
+  });
+}
+function addAttack(){S.attacks.push({name:'New Attack',bonus:'+0',dmg:'1d6',crit:'×2',range:'5 ft',type:'',notes:''});renderAttacks();csMark();}
+function delAttack(i){S.attacks.splice(i,1);renderAttacks();csMark();}
+
+function renderFeats(){
+  const b=document.getElementById('feats-body');b.innerHTML='';
+  S.feats.forEach((f,i)=>{
+    const cls=f.b?'feat-tag bonus-feat':'feat-tag';
+    b.innerHTML+=`<span class="${cls}"><input style="background:transparent;border:none;color:inherit;font-family:'EB Garamond',serif;font-size:11px;outline:none;width:${Math.max(110,f.n.length*6.2)}px;" value="${f.n}" onchange="S.feats[${i}].n=this.value;csMark()"><span class="del-btn" onclick="delFeat(${i})" style="margin-left:2px;">✕</span></span>`;
+  });
+}
+function addFeat(){S.feats.push({n:'New Feat',b:false});renderFeats();csMark();}
+function delFeat(i){S.feats.splice(i,1);renderFeats();csMark();}
+
+function renderSkills(){
+  const tb=document.getElementById('skill-tbody');tb.innerHTML='';
+  S.skills.forEach((sk,i)=>{
+    tb.innerHTML+=`<tr><td class="${sk.cs?'skill-cs':''}">${sk.cs?'★ ':''}${sk.n}</td><td style="color:var(--text-muted)">${sk.ab}</td>
+      <td><input class="cs-input skill-r" id="skt-${i}" value="${sk.t}" onchange="csMark()"></td>
+      <td><input class="cs-input skill-r" id="skr-${i}" value="${sk.r}" onchange="csMark()"></td>
+      <td><input class="cs-input skill-m" id="skm-${i}" value="${sk.m}" onchange="csMark()"></td>
+      <td><span class="del-btn" onclick="delSkill(${i})">✕</span></td></tr>`;
+  });
+}
+function addSkill(){S.skills.push({n:'New Skill',cs:false,ab:'',t:'0',r:'0',m:'—'});renderSkills();csMark();}
+function delSkill(i){S.skills.splice(i,1);renderSkills();csMark();}
+
+function renderSpellSlots(){
+  const c=document.getElementById('spell-slots');c.innerHTML='';
+  S.spellSlots.forEach((sl,i)=>{
+    c.innerHTML+=`<div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px;text-align:center;position:relative;">
+      <span class="del-btn" onclick="delSpellLevel(${i})" style="position:absolute;top:2px;right:4px;font-size:10px;">✕</span>
+      <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);">${sl.lvl.toUpperCase()} LEVEL</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2px;margin:2px 0;">
+        <span style="font-size:9px;color:var(--text-muted);">kn</span>
+        <input class="cs-input" id="ss-kn-${i}" value="${sl.known}" style="width:26px;text-align:center;color:var(--gold);font-weight:700;font-size:13px;" onchange="csMark()">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2px;font-size:10px;">
+        <input class="cs-input" id="ss-pd-${i}" value="${sl.pd}" style="width:20px;text-align:center;" onchange="csMark()">
+        <span style="color:var(--text-muted);">/d+</span>
+        <input class="cs-input" id="ss-bo-${i}" value="${sl.bonus}" style="width:20px;text-align:center;" onchange="csMark()">
+      </div>
+      <input class="cs-input" id="ss-dc-${i}" value="${sl.dc}" style="font-size:9px;color:var(--green-text);text-align:center;width:90%;" onchange="csMark()">
+    </div>`;
+  });
+}
+function addSpellLevel(){const lvls=['3rd','4th','5th','6th'];const next=lvls[S.spellSlots.length-3]||`${S.spellSlots.length}th`;S.spellSlots.push({lvl:next,known:'0',pd:'0',bonus:'0',dc:'DC —'});renderSpellSlots();csMark();}
+function delSpellLevel(i){if(S.spellSlots.length<=1)return;S.spellSlots.splice(i,1);renderSpellSlots();csMark();}
+
+function renderSpells(){
+  const c=document.getElementById('spell-lists');c.innerHTML='';
+  const byLvl={};
+  S.spells.forEach((sp,i)=>{if(!byLvl[sp.lvl])byLvl[sp.lvl]=[];byLvl[sp.lvl].push({...sp,i});});
+  [0,1,2,3,4,5,6].forEach(lvl=>{
+    const arr=byLvl[lvl]||[];
+    const label=['0th (Cantrips)','1st Level','2nd Level','3rd Level','4th Level','5th Level','6th Level'][lvl];
+    if(arr.length===0&&lvl>2)return;
+    const avail=(ALL_SPELLS_BY_LEVEL[lvl]||[]).slice().sort();
+    c.innerHTML+=`<div style="display:flex;align-items:center;justify-content:space-between;font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:1px;color:var(--green-text);margin:6px 0 3px;border-bottom:1px solid var(--green-dim);padding-bottom:2px;">${label}<button class="add-btn" onclick="addSpell(${lvl})">+ Add</button></div>`;
+    arr.forEach(sp=>{
+      const rollDef=SPELL_ROLLS[sp.name];
+      const rollHtml=rollDef
+        ?`<div class="spell-roll-wrap"><span class="spell-roll-label">Roll</span>${mkBtn(rollDef.roll,rollDef.label)}</div>`
+        :'';
+      const opts=avail.map(name=>`<option value="${name}"${name===sp.name?'selected':''}>${name}</option>`).join('');
+      c.innerHTML+=`<div style="margin-bottom:4px;">
+        <div class="spell-row">
+          <select class="spell-select" onchange="S.spells[${sp.i}].name=this.value;renderSpells();csMark()">
+            ${!avail.includes(sp.name)?`<option value="${sp.name}" selected>${sp.name}</option>`:''}
+            ${opts}
+          </select>
+          <input class="spell-note-in" value="${sp.note}" onchange="S.spells[${sp.i}].note=this.value;csMark()">
+          <span class="del-btn" onclick="delSpell(${sp.i})">✕</span>
+        </div>
+        ${rollHtml}
+      </div>`;
+    });
+  });
+}
+function addSpell(lvl){S.spells.push({lvl,name:(ALL_SPELLS_BY_LEVEL[lvl]||['New Spell'])[0],note:'—'});renderSpells();csMark();}
+function delSpell(i){S.spells.splice(i,1);renderSpells();csMark();}
+
+function renderAbilityCards(){
+  const b=document.getElementById('abilities-body');b.innerHTML='';
+  S.abilities_txt.forEach((ab,i)=>{
+    b.innerHTML+=`<div style="background:var(--bg-header);border:1px solid var(--border);border-radius:2px;padding:7px 9px;position:relative;">
+      <span class="del-btn" onclick="delAbility(${i})" style="position:absolute;top:4px;right:6px;">✕</span>
+      <input class="cs-input" id="abt-h-${i}" value="${ab.h}" style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-dim);width:90%;text-transform:uppercase;margin-bottom:3px;" onchange="csMark()">
+      <textarea class="cs-input ta" id="abt-b-${i}" rows="2" onchange="csMark()">${ab.b}</textarea>
+    </div>`;
+  });
+}
+function addAbility(){S.abilities_txt.push({h:'NEW ABILITY',b:'Description…'});renderAbilityCards();csMark();}
+function delAbility(i){S.abilities_txt.splice(i,1);renderAbilityCards();csMark();}
+
+function renderPerf(){
+  const max=parseInt(document.getElementById('perf-max')?.value)||6,used=S.perfUsed||0;
+  const c=document.getElementById('perf-pips');c.innerHTML='';
+  for(let i=0;i<max;i++){c.innerHTML+=`<span class="perf-pip ${i<used?'used':''}" onclick="togglePerf(${i})">${i<used?'✓':''}</span>`;}
+}
+function togglePerf(i){S.perfUsed=(S.perfUsed||0)===i+1?i:i+1;renderPerf();csMark();}
+
+function adjHP(d){
+  const cur=parseInt(document.getElementById('hp-cur').textContent)||0;
+  const max=parseInt(document.getElementById('hp-max').value)||40;
+  const next=Math.max(0,Math.min(max,cur+d));
+  const el=document.getElementById('hp-cur');
+  el.textContent=next;S.hpCurrent=next;
+  el.style.color=next<10?'#ff4444':next<20?'#ff9944':'#c94c4c';csMark();
+}
+function updateHP(){document.getElementById('hp-cur').textContent=document.getElementById('hp-max').value;S.hpCurrent=parseInt(document.getElementById('hp-max').value)||40;}
+
+function restoreInputs(){
+  const map={'hp-max':S['_hp-max'],'hp-nl':S['_hp-nl'],'c-ac':S['_c-ac'],'c-ac-d':S['_c-ac-d'],'c-spd':S['_c-spd'],'c-init':S['_c-init'],'c-init-d':S['_c-init-d'],'c-bab':S['_c-bab'],'c-grp':S['_c-grp'],'c-grp-d':S['_c-grp-d'],'c-sr':S['_c-sr'],'c-dr':S['_c-dr'],'c-xp':S['_c-xp'],'s-fort':S['_s-fort'],'s-fort-d':S['_s-fort-d'],'s-ref':S['_s-ref'],'s-ref-d':S['_s-ref-d'],'s-will':S['_s-will'],'s-will-d':S['_s-will-d'],'s-cond':S['_s-cond'],'a-name':S['_a-name'],'a-type':S['_a-type'],'a-dex':S['_a-dex'],'a-sf':S['_a-sf'],'a-shield':S['_a-shield'],'a-other':S['_a-other'],'mo-pp':S['_mo-pp'],'mo-gp':S['_mo-gp'],'mo-sp':S['_mo-sp'],'mo-cp':S['_mo-cp'],'mo-wt':S['_mo-wt'],'mo-load':S['_mo-load'],'mo-lang':S['_mo-lang'],'sk-maxr':S['_sk-maxr'],'sk-maxc':S['_sk-maxc'],'perf-max':S['_perf-max'],'perf-dc':S['_perf-dc']};
+  Object.entries(map).forEach(([id,v])=>{if(v===undefined)return;const e=document.getElementById(id);if(e)e.value=v;});
+  if(S.hpCurrent!==undefined){const e=document.getElementById('hp-cur');e.textContent=S.hpCurrent;const pct=S.hpCurrent/(parseInt(S['_hp-max'])||40);e.style.color=pct<.25?'#ff4444':pct<.5?'#ff9944':'#c94c4c';}
+  if(S.sessNotes)document.getElementById('sess-notes').value=S.sessNotes;
+  if(S.eqExtra)document.getElementById('eq-extra').value=S.eqExtra;
+}
+
+document.querySelectorAll('.cs-save-btn').forEach((btn,i)=>{
+  if(i===0)btn.onclick=csManualSave;
+  if(i===1)btn.onclick=csReset;
+});
+
+csLoad();
+</script>
+</body>
+</html>
