@@ -17,10 +17,16 @@ body{font-family:'EB Garamond',Georgia,serif;background:#111;color:var(--text-ma
 .page{max-width:860px;margin:0 auto;background:var(--bg-page);border:1px solid var(--border-gold);box-shadow:0 0 40px rgba(0,0,0,.8);}
 
 /* ── TOP NAV ── */
-.top-nav{background:var(--bg-header);border-bottom:2px solid var(--border-gold);padding:8px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.top-nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--bg-header);border-bottom:2px solid var(--border-gold);
+  padding:6px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.7);
+}
 .top-nav-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold-dim);margin-right:8px;}
 .nav-btn{background:var(--bg-card);border:1px solid var(--border-gold);color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;padding:4px 10px;cursor:pointer;border-radius:2px;}
 .nav-btn:hover{background:var(--border-gold);}
+.page{padding-top:40px;}
 
 /* ── COLLAPSIBLE SECTIONS ── */
 .coll-section{border-bottom:1px solid var(--border);}
@@ -128,6 +134,19 @@ body{font-family:'EB Garamond',Georgia,serif;background:#111;color:var(--text-ma
 }
 .roll-cmd.copied .copy-toast{display:block;}
 @keyframes toastPop{from{opacity:0;top:-20px;}to{opacity:1;top:-26px;}}
+.roll-result{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:'Cinzel',serif;font-size:11px;font-weight:700;
+  color:var(--gold-light);letter-spacing:.5px;
+  background:rgba(0,0,0,.35);border:1px solid var(--border-gold);border-radius:3px;
+  padding:3px 8px;min-width:28px;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.roll-result.visible{opacity:1;}
+.roll-result .roll-dice{font-size:9px;color:var(--text-muted);margin-right:2px;}
+.roll-result .roll-total{color:var(--gold);}
+.roll-result .roll-crit{color:#ff4444;}
+.roll-result .roll-nat20{color:#52b788;}
 
 /* Attack roll block */
 .roll-block{
@@ -146,6 +165,37 @@ body{font-family:'EB Garamond',Georgia,serif;background:#111;color:var(--text-ma
   flex-wrap:wrap;
 }
 .spell-roll-label{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase;white-space:nowrap;}
+
+/* Spell info button */
+.spell-info-btn{
+  background:var(--bg-header);border:1px solid var(--border-gold);
+  color:var(--gold-dim);font-family:'Cinzel',serif;font-size:9px;
+  width:16px;height:16px;border-radius:50%;cursor:pointer;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;line-height:1;
+}
+.spell-info-btn:hover{background:var(--border-gold);color:#111;}
+
+/* Spell description popup */
+#spell-popup{
+  position:fixed;z-index:2000;
+  background:var(--bg-card);border:1px solid var(--border-gold);border-radius:4px;
+  width:320px;max-width:90vw;max-height:75vh;
+  overflow-y:auto;box-shadow:0 4px 24px rgba(0,0,0,.85);display:none;
+  user-select:none;
+}
+.spell-popup-drag-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg-header);border-bottom:1px solid var(--border-gold);
+  padding:5px 8px;cursor:grab;border-radius:4px 4px 0 0;
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;color:var(--gold-dim);
+}
+.spell-popup-drag-bar:active{cursor:grabbing;}
+.spell-popup-body{padding:10px 12px;overflow-y:auto;max-height:calc(75vh - 30px);}
+.spell-popup-close{
+  background:none;border:none;color:var(--text-muted);
+  font-size:13px;cursor:pointer;line-height:1;padding:0;flex-shrink:0;
+}
+.spell-popup-close:hover{color:var(--gold);}
 
 /* Spell row */
 .spell-row{display:flex;align-items:center;gap:4px;padding:4px 0;border-bottom:1px solid #2a2a2a;font-size:11.5px;flex-wrap:wrap;}
@@ -316,66 +366,76 @@ body.locked .perf-pip{pointer-events:auto;}
 
     <div class="cs-panel">
       <div class="cs-panel-head">Combat Statistics</div>
-      <div class="cs-panel-body" style="display:flex;flex-direction:column;gap:5px;">
+      <div class="cs-panel-body" style="display:flex;flex-direction:column;gap:6px;">
 
         <!-- HP card -->
-        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:6px 8px;">
-          <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1px;margin-bottom:4px;">HIT POINTS</div>
-          <div class="hp-tracker">
-            <label>Max</label><input class="cs-input val" id="hp-max" value="40" style="width:40px;" onchange="csMark();updateHP()">
-            <label>Cur</label>
-            <button class="hp-btn" onclick="adjHP(-1)">−</button>
-            <span class="hp-current" id="hp-cur">40</span>
-            <button class="hp-btn" onclick="adjHP(1)">+</button>
-            <label>NL</label><input class="cs-input val" id="hp-nl" value="0" style="width:32px;" onchange="csMark()">
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:2px;padding:8px 12px;">
+          <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:2px;margin-bottom:6px;">HIT POINTS</div>
+          <div class="hp-tracker" style="gap:8px;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;letter-spacing:1px;">MAX</span>
+              <input class="cs-input val" id="hp-max" value="40" style="width:44px;font-size:20px;text-align:center;" onchange="csMark();updateHP()">
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;letter-spacing:1px;">CURRENT</span>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <button class="hp-btn" onclick="adjHP(-1)">−</button>
+                <span class="hp-current" id="hp-cur">40</span>
+                <button class="hp-btn" onclick="adjHP(1)">+</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1px;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;letter-spacing:1px;">NON-LETHAL</span>
+              <input class="cs-input val" id="hp-nl" value="0" style="width:44px;font-size:20px;text-align:center;" onchange="csMark()">
+            </div>
           </div>
         </div>
 
-        <!-- Core combat stats 2-col grid -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
-          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
-            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">ARMOR CLASS</div>
-            <div style="display:flex;align-items:baseline;gap:5px;">
-              <input class="cs-input val" id="c-ac" value="19" onchange="csMark()" style="font-size:18px;width:38px;">
-              <input class="cs-input detail" id="c-ac-d" value="Touch 15 · FF 16" onchange="csMark()" style="font-size:10px;">
+        <!-- Core combat stats 2×2 grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:2px;padding:6px 10px;">
+            <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1.5px;margin-bottom:4px;">ARMOR CLASS</div>
+            <div style="display:flex;align-items:baseline;gap:6px;">
+              <input class="cs-input val" id="c-ac" value="19" onchange="csMark()" style="font-size:22px;width:42px;">
+              <input class="cs-input detail" id="c-ac-d" value="Touch 15 · FF 16" onchange="csMark()" style="font-size:12px;color:#fff;">
             </div>
           </div>
-          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
-            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">INITIATIVE</div>
-            <div style="display:flex;align-items:baseline;gap:5px;">
-              <input class="cs-input val" id="c-init" value="+3" onchange="csMark()" style="font-size:18px;width:38px;">
-              <input class="cs-input detail" id="c-init-d" value="Dex +3" onchange="csMark()" style="font-size:10px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:2px;padding:6px 10px;">
+            <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1.5px;margin-bottom:4px;">INITIATIVE</div>
+            <div style="display:flex;align-items:baseline;gap:6px;">
+              <input class="cs-input val" id="c-init" value="+3" onchange="csMark()" style="font-size:22px;width:42px;">
+              <input class="cs-input detail" id="c-init-d" value="Dex +3" onchange="csMark()" style="font-size:12px;color:#fff;">
             </div>
           </div>
-          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
-            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">BASE ATTACK BONUS</div>
-            <input class="cs-input val" id="c-bab" value="+8" onchange="csMark()" style="font-size:16px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:2px;padding:6px 10px;">
+            <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1.5px;margin-bottom:4px;">BASE ATTACK BONUS</div>
+            <input class="cs-input val" id="c-bab" value="+8" onchange="csMark()" style="font-size:20px;">
           </div>
-          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
-            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold-dim);letter-spacing:1px;margin-bottom:2px;">SPEED</div>
-            <input class="cs-input val" id="c-spd" value="30 ft" onchange="csMark()" style="font-size:16px;">
+          <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-left:3px solid var(--gold);border-radius:2px;padding:6px 10px;">
+            <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:1.5px;margin-bottom:4px;">SPEED</div>
+            <input class="cs-input val" id="c-spd" value="30 ft" onchange="csMark()" style="font-size:20px;">
           </div>
         </div>
 
         <!-- Secondary stats -->
-        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:5px 8px;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:11px;">
-            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:1px solid #2a2a2a;">
-              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">Grapple</span>
-              <input class="cs-input val" id="c-grp" value="+8" onchange="csMark()" style="width:36px;font-size:12px;">
-              <input class="cs-input detail" id="c-grp-d" value="BAB+8, Str+0" onchange="csMark()" style="font-size:10px;">
+        <div style="background:var(--bg-header);border:1px solid var(--border-gold);border-radius:2px;padding:6px 10px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;">
+            <div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid #2a2a2a;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;white-space:nowrap;letter-spacing:.5px;min-width:46px;">Grapple</span>
+              <input class="cs-input val" id="c-grp" value="+8" onchange="csMark()" style="width:36px;font-size:13px;">
+              <input class="cs-input detail" id="c-grp-d" value="BAB+8, Str+0" onchange="csMark()" style="font-size:11px;color:#fff;">
             </div>
-            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;border-bottom:1px solid #2a2a2a;">
-              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">Spell Res.</span>
-              <input class="cs-input val" id="c-sr" value="3" onchange="csMark()" style="width:28px;font-size:12px;">
+            <div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid #2a2a2a;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;white-space:nowrap;letter-spacing:.5px;min-width:54px;">Spell Res.</span>
+              <input class="cs-input val" id="c-sr" value="3" onchange="csMark()" style="width:32px;font-size:13px;">
             </div>
-            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;">
-              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">DR</span>
-              <input class="cs-input detail" id="c-dr" value="—" onchange="csMark()">
+            <div style="display:flex;align-items:center;gap:6px;padding:3px 0;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;white-space:nowrap;letter-spacing:.5px;min-width:46px;">DR</span>
+              <input class="cs-input detail" id="c-dr" value="—" onchange="csMark()" style="font-size:11px;color:#fff;">
             </div>
-            <div style="display:flex;align-items:center;gap:5px;padding:2px 0;">
-              <span style="color:var(--text-muted);font-size:10px;white-space:nowrap;">XP</span>
-              <input class="cs-input detail" id="c-xp" value="" placeholder="0" onchange="csMark()" style="color:#e8e8e8;">
+            <div style="display:flex;align-items:center;gap:6px;padding:3px 0;">
+              <span style="font-family:'Cinzel',serif;font-size:9px;color:#fff;white-space:nowrap;letter-spacing:.5px;min-width:54px;">XP</span>
+              <input class="cs-input detail" id="c-xp" value="" placeholder="0" onchange="csMark()" style="font-size:11px;color:#fff;">
             </div>
           </div>
         </div>
@@ -897,7 +957,9 @@ function collapseAll(){
 function jumpTo(id){
   const el=document.getElementById(id);if(!el)return;
   if(!document.getElementById('body-'+id).classList.contains('open'))toggleSection(id);
-  el.scrollIntoView({behavior:'smooth',block:'start'});
+  const navH=document.querySelector('.top-nav')?.offsetHeight||40;
+  const y=el.getBoundingClientRect().top+window.scrollY-navH;
+  window.scrollTo({top:y,behavior:'smooth'});
 }
 
 // ══════════════════════════════════════════════
@@ -1026,7 +1088,7 @@ function collectInputs(){
   S.eqExtra=document.getElementById('eq-extra')?.value||'';
 }
 
-function render(){renderMeta();renderAbilities();renderAttacks();renderFeats();renderSkills();renderSpellSlots();renderSpells();renderAbilityCards();renderPerf();restoreInputs();}
+function render(){renderMeta();renderAbilities();renderAttacks();renderFeats();renderSkills();renderSpellSlots();renderSpells();renderAbilityCards();renderPerf();restoreInputs();buildSpellDescMap();}
 
 function renderMeta(){
   if(!S.meta)return;
@@ -1042,15 +1104,38 @@ function renderAbilities(){
 // ══════════════════════════════════════════════
 // ROLL BUTTON HELPERS
 // ══════════════════════════════════════════════
+function doRoll(cmd){
+  // Parse "!roll XdY+Z" or "!roll XdY-Z" or "!roll XdY"
+  const m=cmd.match(/(\d+)d(\d+)([+-]\d+)?/i);
+  if(!m) return null;
+  const count=parseInt(m[1]),sides=parseInt(m[2]),mod=m[3]?parseInt(m[3]):0;
+  const rolls=Array.from({length:count},()=>Math.floor(Math.random()*sides)+1);
+  const sum=rolls.reduce((a,b)=>a+b,0)+mod;
+  const nat20=count===1&&sides===20&&rolls[0]===20;
+  const nat1=count===1&&sides===20&&rolls[0]===1;
+  return {rolls,sum,mod,nat20,nat1,sides,count};
+}
 function copyRoll(el,text){
   navigator.clipboard.writeText(text).catch(()=>{
     const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
   });
   el.classList.add('copied');setTimeout(()=>el.classList.remove('copied'),1800);
+  // Also roll and display result
+  const result=doRoll(text);
+  if(!result) return;
+  const res=el.nextElementSibling;
+  if(!res||!res.classList.contains('roll-result')) return;
+  const diceStr=result.rolls.join('+');
+  const modStr=result.mod!==0?(result.mod>0?' +'+result.mod:' '+result.mod):'';
+  let cls='roll-total';
+  if(result.nat20) cls='roll-nat20';
+  else if(result.nat1) cls='roll-crit';
+  res.innerHTML=`<span class="roll-dice">[${diceStr}${modStr}]</span><span class="${cls}">${result.sum}</span>`;
+  res.classList.add('visible');
 }
 function mkBtn(cmd,label,extraClass=''){
   const safe=cmd.replace(/'/g,"\\'");
-  return `<span class="roll-cmd${extraClass?(' '+extraClass):''}" onclick="copyRoll(this,'${safe}')">${cmd}<span class="copy-toast">✓ Copied!</span><span style="font-size:8.5px;color:rgba(82,183,136,.6);margin-left:3px;">${label}</span></span>`;
+  return `<span class="roll-cmd${extraClass?(' '+extraClass):''}" onclick="copyRoll(this,'${safe}')">${cmd}<span class="copy-toast">✓ Copied!</span><span style="font-size:8.5px;color:rgba(82,183,136,.6);margin-left:3px;">${label}</span></span><span class="roll-result"></span>`;
 }
 
 const ATTACK_ROLLS={
@@ -1192,8 +1277,10 @@ function renderSpells(){
         ?`<div class="spell-roll-wrap"><span class="spell-roll-label">Roll</span>${mkBtn(rollDef.roll,rollDef.label)}</div>`
         :'';
       const opts=avail.map(name=>`<option value="${name}"${name===sp.name?'selected':''}>${name}</option>`).join('');
+      const safeName=sp.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       c.innerHTML+=`<div style="margin-bottom:4px;">
         <div class="spell-row">
+          <button class="spell-info-btn" onclick="showSpellDesc(event,'${safeName}')" title="Show description">ℹ</button>
           <select class="spell-select" onchange="S.spells[${sp.i}].name=this.value;renderSpells();csMark()">
             ${!avail.includes(sp.name)?`<option value="${sp.name}" selected>${sp.name}</option>`:''}
             ${opts}
@@ -1252,7 +1339,64 @@ document.querySelectorAll('.cs-save-btn').forEach((btn,i)=>{
   if(i===1)btn.onclick=csReset;
 });
 
+// ══════════════════════════════════════════════
+// SPELL DESCRIPTION POPUP
+// ══════════════════════════════════════════════
+const SPELL_DESC_MAP={};
+function buildSpellDescMap(){
+  document.querySelectorAll('.spell-card').forEach(card=>{
+    const n=card.querySelector('.spell-name');
+    if(n) SPELL_DESC_MAP[n.textContent.trim()]=card.innerHTML;
+  });
+}
+function showSpellDesc(event,name){
+  const popup=document.getElementById('spell-popup');
+  const content=document.getElementById('spell-popup-content');
+  const data=SPELL_DESC_MAP[name];
+  content.innerHTML=data||`<div style="color:var(--text-muted);font-style:italic;font-size:11px;">No description found for "${name}".</div>`;
+  popup.style.display='block';
+  // Position near the click, keeping within viewport
+  const pw=320,ph=popup.scrollHeight||200;
+  const vw=window.innerWidth,vh=window.innerHeight;
+  let left=event.clientX+12,top=event.clientY-20;
+  if(left+pw>vw-8) left=event.clientX-pw-12;
+  if(top+ph>vh-8) top=vh-ph-8;
+  if(top<8) top=8;
+  popup.style.left=left+'px';popup.style.top=top+'px';
+  event.stopPropagation();
+}
+function closeSpellPopup(){document.getElementById('spell-popup').style.display='none';}
+document.addEventListener('click',e=>{
+  const p=document.getElementById('spell-popup');
+  if(p&&p.style.display!=='none'&&!p.contains(e.target)) closeSpellPopup();
+});
+
+// Drag logic for spell popup
+(function(){
+  let dragging=false,ox=0,oy=0;
+  document.addEventListener('mousedown',e=>{
+    const bar=e.target.closest('.spell-popup-drag-bar');
+    if(!bar) return;
+    const popup=document.getElementById('spell-popup');
+    dragging=true;
+    ox=e.clientX-popup.getBoundingClientRect().left;
+    oy=e.clientY-popup.getBoundingClientRect().top;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    const popup=document.getElementById('spell-popup');
+    const vw=window.innerWidth,vh=window.innerHeight;
+    let x=e.clientX-ox, y=e.clientY-oy;
+    x=Math.max(0,Math.min(x,vw-popup.offsetWidth));
+    y=Math.max(0,Math.min(y,vh-popup.offsetHeight));
+    popup.style.left=x+'px'; popup.style.top=y+'px';
+  });
+  document.addEventListener('mouseup',()=>{dragging=false;});
+})();
+
 csLoad();
 </script>
+<div id="spell-popup"><div class="spell-popup-drag-bar"><span>SPELL REFERENCE</span><button class="spell-popup-close" onclick="closeSpellPopup()">✕</button></div><div class="spell-popup-body"><div id="spell-popup-content"></div></div></div>
 </body>
 </html>
